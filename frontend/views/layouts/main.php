@@ -70,6 +70,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>    
 </header>
+<!--
 <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -77,6 +78,7 @@ AppAsset::register($this);
         <?= Alert::widget() ?>
         <?= $content ?>
 </div>
+
 <footer class="footer fixed-bottom">
     <div class="container">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
@@ -84,6 +86,7 @@ AppAsset::register($this);
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
+-->
 
 <?php $this->endBody() ?>
 </body>
