@@ -1,16 +1,24 @@
 <?php
-
-/* @var $this \yii\web\View */
-/* @var $content string */
-
-use backend\assets\AppAsset;
 use yii\helpers\Html;
+use backend\assets\AppAsset;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use common\widgets\Alert;
-
+/* @var $this \yii\web\View */
+/* @var $content string */
+if (Yii::$app->user->isGuest) { 
+/**
+ * Do not use this code in your template. Remove it. 
+ * Instead, use the code  $this->layout = '//main-login'; in your controller.
+ */
+    echo $this->render(
+        'main-login',
+        ['content' => $content]
+    );
+} else {
 AppAsset::register($this);
+$directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -27,8 +35,20 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 
 <div class="wrap">
+    <?= $this->render('header.php',
+             ['directoryAsset' => $directoryAsset]
+            ) ?>
+    <?= $this->render(
+            'left.php',
+            ['directoryAsset' => $directoryAsset]
+        )
+        ?>
+    <?= $this->render(
+            'content.php',
+            ['content' => $content, 'directoryAsset' => $directoryAsset]
+        ) ?>
     <?php
-    NavBar::begin([
+ /*   NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -54,16 +74,10 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
     ]);
-    NavBar::end();
+    NavBar::end();*/
     ?>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
+    
 </div>
 
 <footer class="footer">
@@ -78,3 +92,4 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+<?php } ?>

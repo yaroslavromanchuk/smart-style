@@ -15,6 +15,7 @@ use Yii;
  * @property string $middleName
  * @property string $birthday
  * @property string $sex
+ * @property string $logo
  * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
@@ -38,11 +39,10 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-           [['username', 'email', 'auth_key', 'password_hash', 'created_at', 'updated_at'], 'required'],
+            [['username', 'email', 'auth_key', 'password_hash', 'created_at', 'updated_at'], 'required'],
             [['birthday'], 'safe'],
-            [['birthday'], 'date', 'format'=> 'php:Y-m-d'],
             [['status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'email', 'password_hash', 'password_reset_token'], 'string', 'max' => 255],
+            [['username', 'email', 'logo', 'password_hash', 'password_reset_token'], 'string', 'max' => 255],
             [['lastName', 'firstName', 'middleName'], 'string', 'max' => 100],
             [['sex'], 'string', 'max' => 10],
             [['auth_key'], 'string', 'max' => 32],
@@ -59,13 +59,14 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'username' => 'Логин',
+            'username' => 'Username',
             'email' => 'Email',
-            'lastName' => 'Фамілія',
-            'firstName' => 'Імя',
-            'middleName' => 'Прізвище',
-            'birthday' => 'Дата народження',
-            'sex' => 'Стать',
+            'lastName' => 'Last Name',
+            'firstName' => 'First Name',
+            'middleName' => 'Middle Name',
+            'birthday' => 'Birthday',
+            'sex' => 'Sex',
+            'logo' => 'Иконка',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
@@ -73,5 +74,14 @@ class User extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return UserQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new UserQuery(get_called_class());
     }
 }

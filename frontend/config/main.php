@@ -9,12 +9,28 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'languages'],
     'controllerNamespace' => 'frontend\controllers',
-    'components' => [
-        'request' => [
-            'csrfParam' => '_csrf-frontend',
+    //'sourceLanguage' => 'uk',
+    'modules' => [
+    'languages' => [
+        'class' => 'common\modules\languages\LModule',
+        //Языки используемые в приложении
+        'languages' => [
+            'EN' => 'en',
+            'RU' => 'ru',
+            'UA' => 'uk',
         ],
+        'default_language' => 'uk', //основной язык (по-умолчанию)
+        'show_default' => false, //true - показывать в URL основной язык, false - нет
+    ],
+    ],
+    'components' => [
+       'request' => [
+                'baseUrl' => '',
+                'class' => 'common\components\LangRequest',
+		'csrfParam' => '_csrf-frontend',
+                          ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -36,14 +52,33 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        
+      /*  
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
+            'class' => 'common\components\LangUrlManager',
             'rules' => [
+                        'languages' => 'languages/lang/index/', //для модуля мультиязычности
+			'/' => 'site/index',
+                       // '' => 'uk',
+                        //'<action:(contact|login|logout|language|about|signup)>' => 'site/<action>',
+			'<controller:\w+>/<action:\w+>/'=>'<controller>/<action>',
+            ],
+        ],*/
+	'language'=>'uk-UA',
+        'i18n' => [
+            'translations' => [
+            'app' => [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@common/messages',
+            'sourceLanguage' => 'uk',
+            'fileMap' => [
+                'main' => 'main.php',
             ],
         ],
+    ],
+],
         
     ],
     'params' => $params,

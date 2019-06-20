@@ -24,9 +24,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'birthday')->textInput() ?>
 
-    <?= $form->field($model, 'sex')->dropdownList(['m'=>'Чоловік', 'w'=>'Жінка' ],['prompt' => 'Виберіть стать']) ?>
+    <?= $form->field($model, 'sex')->textInput(['maxlength' => true]) ?>
 
-   <?= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'logo')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'auth_key')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
 
@@ -39,7 +41,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'updated_at')->textInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

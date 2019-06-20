@@ -11,7 +11,7 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+
 
 /**
  * Site controller
@@ -23,18 +23,20 @@ class SiteController extends Controller
      */
     public function behaviors()
     {
+      
+        
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                //'only' => ['login', 'logout', 'signup'],
+                'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['index', 'contact', 'about'],
+                        'actions' => ['index'],
                         'allow' => true,
                         
                     ],
                     [
-                        'actions' => ['login', 'signup'],
+                        'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -84,9 +86,18 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = '@frontend/views/layouts/fluid/main.php';
-        return $this->render('index');
+       // $this->layout = '@frontend/views/layouts/fluid/main.php';
+     
+        
+        $model = [];
+        $block = [
+                    ['block'=>'slider', 'model'=> $model],
+                    ['block'=>'features-list', 'model'=> $model],
+                    ['block'=>'products-carousel-tabs', 'model'=>$model]
+            ];
+        return $this->render('index', ['block'=>$block]);
     }
+   
     
      public function actionApi()
     {
@@ -129,38 +140,6 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 
     /**
      * Signs user up.

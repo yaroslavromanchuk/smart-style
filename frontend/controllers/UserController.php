@@ -20,6 +20,7 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+		
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -35,19 +36,13 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        
-        return $this->render('view', [
-            'model' => $this->findModel(Yii::$app->user->id),
-        ]);
-        
-       /* $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider([
             'query' => User::find(),
         ]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
-        */
     }
 
     /**
@@ -124,10 +119,11 @@ class UserController extends Controller
      */
     protected function findModel($id)
     {
+		
         if (($model = User::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

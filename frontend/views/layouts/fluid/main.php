@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use common\modules\languages\widgets\ListWidget;
 
 AppAsset::register($this);
 ?>
@@ -27,17 +28,18 @@ AppAsset::register($this);
     <?= $this->beginBody() ?>
     <header>
     <?php
+	
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse ',
-             'style' => ['background-color'=> '#2220']
+           
         ],
     ]);
     $category = [
-        ['label' => 'Чоловікам', 'url'=> ['/men/']],
-        ['label' => 'Жінкам', 'url'=> ['/women/']],
+        ['label' => Yii::t('app', 'Men'), 'url'=> ['/men/']],
+        ['label' => Yii::t('app', 'Women'), 'url'=> ['/women/']],
     ];
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-left'],
@@ -45,24 +47,28 @@ AppAsset::register($this);
     ]);
     
     $menuItems = [
-        ['label' => 'Головна', 'url' => ['/']],
-        ['label' => 'Про нас', 'url' => ['/site/about']],
-        ['label' => 'Контакти', 'url' => ['/site/contact']],
+        ['label' => Yii::t('app', 'Home'), 'url' => ['/']],
+        ['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+        ['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Реєстрація', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Вхід', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
     } else {
-         $menuItems[] = ['label'=> Yii::$app->user->identity->username, 'url'=>['/user/account/']];
+        $menuItems[] = ['label'=> Yii::$app->user->identity->username, 'url'=>['/user/account/']];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Вихід',
+                Yii::t('app', 'Logout'),
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
             . '</li>';
     }
+    $menuItems[] = '<li>'
+            .ListWidget::widget()
+            .'</li>';
+    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
@@ -70,14 +76,16 @@ AppAsset::register($this);
     NavBar::end();
     ?>    
 </header>
-<div class="container-fluid">
+
+<div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
 </div>
-<footer class="footer">
+
+<footer class="footer fixed-bottom">
     <div class="container">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
 
