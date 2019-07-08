@@ -22,6 +22,7 @@ class CarsSearch extends Cars
             [['engine'], 'number'],
         ];
     }
+   
 
     /**
      * {@inheritdoc}
@@ -41,6 +42,7 @@ class CarsSearch extends Cars
      */
     public function search($params)
     {
+        
         $query = Cars::find();
 
         // add conditions that should always apply here
@@ -56,7 +58,7 @@ class CarsSearch extends Cars
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -86,6 +88,7 @@ class CarsSearch extends Cars
             'seats' => $this->seats,
             'country_id' => $this->country_id,
             'spare_parts' => $this->spare_parts,
+            'status_id' => $this->status_id,
         ]);
 
         $query->andFilterWhere(['like', 'modification', $this->modification])
@@ -96,6 +99,7 @@ class CarsSearch extends Cars
             ->andFilterWhere(['like', 'video_key', $this->video_key])
             ->andFilterWhere(['like', 'description_ru', $this->description_ru])
             ->andFilterWhere(['like', 'description_uk', $this->description_uk]);
+
 
         return $dataProvider;
     }

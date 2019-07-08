@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'slider_id',
             'src',
+            'href',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

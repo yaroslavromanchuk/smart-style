@@ -30,6 +30,8 @@ return [
                 'baseUrl' => '',
                 'class' => 'common\components\LangRequest',
 		'csrfParam' => '_csrf-frontend',
+                    'enableCookieValidation' => false,
+                    'enableCsrfValidation' => false,
                           ],
         'user' => [
             'identityClass' => 'common\models\User',

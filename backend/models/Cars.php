@@ -76,8 +76,8 @@ class Cars extends \yii\db\ActiveRecord
     {
         return [
             [['file'], 'file', 'extensions' => 'png, jpg'],
-            [['year', 'price', 'currency_id', 'categories_id', 'brand_id', 'model_id', 'modification', 'body_id', 'mileage', 'region_id', 'city_id', 'image'], 'required'],
-            [['year', 'price', 'currency_id', 'categories_id', 'brand_id', 'model_id', 'damage', 'custom', 'body_id', 'mileage', 'region_id', 'city_id', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
+            [['year', 'price', 'currency_id', 'categories_id',  'brand_id', 'model_id',  'body_id', 'mileage', 'region_id', 'city_id', 'image'], 'required'],
+            [['year', 'price', 'currency_id', 'categories_id', 'status_id', 'brand_id', 'model_id', 'damage', 'custom', 'body_id', 'mileage', 'region_id', 'city_id', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
             [['engine'], 'number'],
             [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk'], 'string', 'max' => 255],
             [['body_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoBodystyles::className(), 'targetAttribute' => ['body_id' => 'id']],
@@ -92,6 +92,7 @@ class Cars extends \yii\db\ActiveRecord
             [['currency_id'], 'exist', 'skipOnError' => true, 'targetClass' => Currency::className(), 'targetAttribute' => ['currency_id' => 'id']],
             [['drive_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoDriverTypes::className(), 'targetAttribute' => ['drive_id' => 'id']],
             [['fuel_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoOil::className(), 'targetAttribute' => ['fuel_id' => 'id']],
+            [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => CarsStatus::className(), 'targetAttribute' => ['status_id' => 'id']],
         ];
     }
 
@@ -136,6 +137,7 @@ class Cars extends \yii\db\ActiveRecord
             'seats' => Yii::t('app', 'Кількість сидячих місць'),
             'country_id' => Yii::t('app', 'Країна з якої пригнане авто'),
             'spare_parts' => Yii::t('app', 'На запчастини'),
+            'status_id' => Yii::t('app', 'Статус'),
         ];
     }
 
@@ -145,6 +147,13 @@ class Cars extends \yii\db\ActiveRecord
     public function getBody()
     {
         return $this->hasOne(AutoBodystyles::className(), ['id' => 'body_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(CarsStatus::className(), ['id' => 'status_id']);
     }
 
     /**

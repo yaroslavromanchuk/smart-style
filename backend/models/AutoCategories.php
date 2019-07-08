@@ -28,7 +28,7 @@ class AutoCategories extends \yii\db\ActiveRecord
         return [
             [['id', 'name'], 'required'],
             [['id'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'name_uk', 'name_ru'], 'string', 'max' => 255],
         ];
     }
 

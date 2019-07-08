@@ -23,7 +23,7 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <link rel="shortcut icon" href="/images/fav-icon.png">
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title) ?> | Smart-style</title>
     <?php $this->head() ?>
 </head>
 <body class="page <?php if(Yii::$app->controller->id == 'site'){echo 'home page-template-default'; }elseif(Yii::$app->controller->id == 'cars'){ echo 'left-sidebar';}else{ echo 'full-width'; } ?> ">

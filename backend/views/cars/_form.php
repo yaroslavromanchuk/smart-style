@@ -159,7 +159,11 @@ use dosamigos\tinymce\TinyMce;
 
     <?= $form->field($model, 'country_id')->dropdownList(
              \backend\models\AutoCountries::find()->select(['name', 'id'])->indexBy('id')->column(),
-    ['prompt'=>'Вкажіть колір авто']
+    ['prompt'=>'Вкажіть країну звідки привезене авто']
+            ) ?>
+     <?= $form->field($model, 'status_id')->dropdownList(
+         \backend\models\CarsStatus::find()->select(['name', 'id'])->indexBy('id')->column(),
+    ['prompt'=>'Вкажіть статус авто']
             ) ?>
 
     <?= $form->field($model, 'spare_parts')->checkbox([ 'value' => 1, 'label' => 'На запчастини', ]) ?>

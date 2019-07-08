@@ -51,6 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
            // 'id',
             'src',
+            'href'
 
            // ['class' => 'yii\grid\ActionColumn'],
         ],

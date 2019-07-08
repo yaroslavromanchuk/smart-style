@@ -1,34 +1,84 @@
 <?php
 
 use yii\helpers\Html;
+use \yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-
 /* @var $this yii\web\View */
 /* @var $model frontend\models\CarsSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="cars-search">
 
+     <h3 class="widget-title"><?=Yii::t('app', 'Фільтри')?></h3>
     <?php $form = ActiveForm::begin([
+        'id' => 'sears_cars',
         'action' => ['index'],
         'method' => 'get',
         'options' => [
             'data-pjax' => 1
         ],
+        'fieldConfig' => [
+           'template' => "{label}\n{input}\n<p class=\"maxlist-more\"><a href=\"#\">+</a></p>\n{error}"
+        ]
     ]); ?>
+     <div class="cars-search widget widget_electro_products_filter">
+         <aside id="woocommerce_layered_nav-1" class="widget woocommerce widget_layered_nav woocommerce-widget-layered-nav">
+        <h3 class="widget-title"><?=Yii::t('app', 'Тип авто')?></h3>
+    <?= $form->field($model, 'categories')->checkboxList(
+            ArrayHelper::map(\frontend\models\AutoCategories::find()->joinWith('cars',true,'INNER JOIN')->all(), 'id', 'name'),
+            [
+                  'tag' => 'ul',
+                   'class' => 'woocommerce-widget-layered-nav-list',
+               'item'=>function ($index, $label, $name, $checked, $value){
+         $check = $checked ? 'checked' : '';
+        return "<li class='woocommerce-widget-layered-nav-list__item wc-layered-nav-term '>
+       <input id='{$index}-c' type='checkbox' {$check}  name='{$name}' value='{$value}' /><label for='{$index}-c'></span>{$label}<span></label>
+                                    </li>";
+                                    }
+                         ]
+            )->label(false); ?>
+</aside>
+         <aside id="woocommerce_layered_nav-2" class="widget woocommerce widget_layered_nav woocommerce-widget-layered-nav">
+        <h3 class="widget-title"><?=Yii::t('app', 'Марка авто')?></h3>
+    <?= $form->field($model, 'brand')->checkboxList(
+            ArrayHelper::map(\frontend\models\AutoMarks::find()->joinWith('cars',true,'INNER JOIN')->all(), 'id', 'name'),
+            [
+                  'tag' => 'ul',
+                   'class' => 'woocommerce-widget-layered-nav-list',
+               'item'=>function ($index, $label, $name, $checked, $value){
+         $check = $checked ? 'checked' : '';
+        return "<li class='woocommerce-widget-layered-nav-list__item wc-layered-nav-term '>
+       <input id='{$index}-m' type='checkbox' {$check}  name='{$name}' value='{$value}' /><label for='{$index}-m'></span>{$label}<span></label>
+                                    </li>";
+                                    }
+                         ]
+            )->label(false); ?>
+</aside>
+<aside id="woocommerce_layered_nav-3" class="widget woocommerce widget_layered_nav woocommerce-widget-layered-nav">
+        <h3 class="widget-title"><?=Yii::t('app', 'Рік випуску')?></h3>
+         <?= $form->field($model, 'year')->checkboxList(
+            ArrayHelper::map(\frontend\models\Cars::find()->select('year')->distinct('year')->where('status_id = 2')->all(), 'year', 'year'),
+           [
+                  'tag' => 'ul',
+                   'class' => 'woocommerce-widget-layered-nav-list',
+               'item'=>function ($index, $label, $name, $checked, $value){
+         $check = $checked ? 'checked' : '';
+        return "<li class='woocommerce-widget-layered-nav-list__item wc-layered-nav-term '>
+       <input id='{$index}-y' type='checkbox' {$check}  name='{$name}' value='{$value}' /><label for='{$index}-y'></span>{$label}<span></label>
+                                    </li>";
+                                    }
+                         ]
+            )->label(false);
+    ?>   
+</aside>
 
-    <?= $form->field($model, 'id') ?>
+    <?php // echo $form->field($model, 'min_price') ?>
+    
+    <?php // echo $form->field($model, 'max_price') ?>
 
-    <?= $form->field($model, 'year') ?>
+    <?php // echo $form->field($model, 'currency_id') ?>
 
-    <?= $form->field($model, 'price') ?>
-
-    <?= $form->field($model, 'currency_id') ?>
-
-    <?= $form->field($model, 'categories_id') ?>
-
-    <?php // echo $form->field($model, 'brand_id') ?>
+    <?php  //echo $form->field($model, 'brand_id') ?>
 
     <?php // echo $form->field($model, 'model_id') ?>
 
@@ -89,10 +139,12 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'spare_parts') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Підібрати'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Скинути'), ['class' => 'btn btn-default']) ?>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
+    <?php ActiveForm::end(); ?>
+   
+
+
+

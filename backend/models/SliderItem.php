@@ -35,6 +35,7 @@ class SliderItem extends \yii\db\ActiveRecord
             [['slider_id'], 'required'],
             [['slider_id'], 'integer'],
             [['src'], 'string', 'max' => 255],
+            [['href'], 'string', 'max' => 150],
             [['slider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Slider::className(), 'targetAttribute' => ['slider_id' => 'id']],
         ];
     }
@@ -48,6 +49,7 @@ class SliderItem extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'slider_id' => Yii::t('app', 'Слайдер'),
             'src' => Yii::t('app', 'Картинка'),
+            'href' => Yii::t('app', 'Посилання'),
         ];
     }
 

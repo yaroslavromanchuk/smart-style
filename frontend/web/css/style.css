@@ -757,6 +757,9 @@ fieldset {
 .woocommerce-page .page-header {
   position: relative;
   margin-bottom: 1.429em; }
+.page-header h1{
+    font-weight: bold;
+}
   .woocommerce-page .page-header .woocommerce-result-count {
     position: absolute;
     margin: 0;
@@ -1800,11 +1803,12 @@ ul.products > .list-view.product {
     ul.products > .list-view.onsale-product-content, .products-carousel .owl-item
     ul.products > .list-view.product {
       width: 100%; } }
-
+/*
 ul.products > li.product.list-view, .section-onsale-product ul.products > .list-view.onsale-product, .section-onsale-product-carousel .onsale-product-carousel .onsale-product ul.products > .list-view.onsale-product-content, .products-carousel .owl-item ul.products > .list-view.product {
   padding-bottom: 2.143em;
   margin-bottom: 2.143em;
   border-bottom: 1px solid #ddd; }
+*/
   ul.products > li.product.list-view:last-child, .section-onsale-product ul.products > .list-view.onsale-product:last-child, .section-onsale-product-carousel .onsale-product-carousel .onsale-product ul.products > .list-view.onsale-product-content:last-child, .products-carousel .owl-item ul.products > .list-view.product:last-child {
     margin-bottom: -1.286em;
     border-bottom: none; }
@@ -1934,6 +1938,8 @@ ul.products > li.product.list-view-small .price-add-to-cart, .section-onsale-pro
       padding: 0.643em 1.429em;
       border: 1px solid #e3e3e3;
       border-radius: 1.143em; }
+    
+    
       .woocommerce-pagination ul.page-numbers > li a:focus, .woocommerce-pagination ul.page-numbers > li a:hover, .woocommerce-pagination ul.page-numbers > li span:focus, .woocommerce-pagination ul.page-numbers > li span:hover,
       .pagination ul.page-numbers > li a:focus,
       .pagination ul.page-numbers > li a:hover,
@@ -4555,29 +4561,35 @@ margin-top: -20px;}
 /*===================================================================================*/
 /*  Shop Control Bar
 /*===================================================================================*/
+/*
 .shop-control-bar {
   background-color: #f5f5f5;
   padding: 0.714em 1.429em;
   border-radius: 9px; }
+*/
   .shop-control-bar::after {
     content: "";
     display: table;
     clear: both; }
   .shop-control-bar .shop-view-switcher {
-    float: left;
+    float: right;
     min-height: 1px;
     position: relative;
-    border: none; }
+    border: none;
+        margin-left: 15px;
+  }
+  /*
     @media (min-width: 992px) {
       .shop-control-bar .shop-view-switcher {
-        width: 25%; } }
+        width: 25%; } }*/
     .shop-control-bar .shop-view-switcher .nav-link {
       color: #d6dbe1;
-      font-size: 1.286em;
-      line-height: 2.24em;
+      font-size: 2em;
+     /* line-height: 2.24em;*/
       border: none;
       border-radius: 0;
-      padding: 0; }
+      padding: 0;
+    }
       .shop-control-bar .shop-view-switcher .nav-link:focus, .shop-control-bar .shop-view-switcher .nav-link:hover {
         text-decoration: none;
         color: #575560; }
@@ -5564,9 +5576,15 @@ section.section-product-cards-carousel .owl-carousel .owl-stage-outer {
     border-top: 1px solid #ddd; }
 
 .widget_electro_products_filter ul {
-  list-style: none; }
+  list-style: none;
+padding-left: 0;
+    margin-bottom: 0;
+}
+.widget_electro_products_filter .widget_layered_nav .wc-layered-nav-term > input[type=checkbox]{
+    display: none;
+}
 
-.widget_electro_products_filter .widget_layered_nav li > a::before, .widget_electro_products_filter .widget_product_categories li > a::before {
+.widget_electro_products_filter .widget_layered_nav li > label::before, .widget_electro_products_filter .widget_product_categories li > label::before {
   display: inline-block;
   font: normal normal normal 14px/1 FontAwesome;
   font-size: inherit;
@@ -5580,10 +5598,16 @@ section.section-product-cards-carousel .owl-carousel .owl-stage-outer {
   vertical-align: middle;
   color: #dfdfdf; }
 
-.widget_electro_products_filter .widget_layered_nav li > a:focus::before, .widget_electro_products_filter .widget_layered_nav li > a:hover::before, .widget_electro_products_filter .widget_product_categories li > a:focus::before, .widget_electro_products_filter .widget_product_categories li > a:hover::before {
-  content: "\f0c8";
+
+.widget_electro_products_filter .widget_layered_nav li > input[type=checkbox]+label:focus::before, .widget_electro_products_filter .widget_layered_nav li > input[type=checkbox]+label:hover::before, .widget_electro_products_filter .widget_product_categories li > input[type=checkbox]+label:focus::before, .widget_electro_products_filter .widget_product_categories li > input[type=checkbox]+label:hover::before {
+  content: "\f14a";
   font-size: 1.048em;
   margin-right: 0.621em; }
+
+.widget_electro_products_filter .widget_layered_nav li > input[type=checkbox]:checked +label:before{
+ content: "\f14a";
+    color: #000;
+}
 
 .widget_electro_products_filter .widget_layered_nav li.chosen > a::before,
 .widget_electro_products_filter .widget_layered_nav li.current-cat > a::before, .widget_electro_products_filter .widget_product_categories li.chosen > a::before,
@@ -5596,7 +5620,7 @@ section.section-product-cards-carousel .owl-carousel .owl-stage-outer {
   margin-top: 1.14em; }
   .maxlist-more a {
     color: #575560;
-    font-size: 0.929em; }
+    font-size: 2em; }
     .maxlist-more a:focus, .maxlist-more a:hover {
       text-decoration: none;
       color: #575560; }

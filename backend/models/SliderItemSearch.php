@@ -18,7 +18,7 @@ class SliderItemSearch extends SliderItem
     {
         return [
             [['id', 'slider_id'], 'integer'],
-            [['src'], 'safe'],
+            [['src', 'href'], 'safe'],
         ];
     }
 
@@ -63,6 +63,7 @@ class SliderItemSearch extends SliderItem
         ]);
 
         $query->andFilterWhere(['like', 'src', $this->src]);
+         $query->andFilterWhere(['like', 'href', $this->href]);
 
         return $dataProvider;
     }

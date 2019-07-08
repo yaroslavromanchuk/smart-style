@@ -31,7 +31,7 @@ class AppAsset extends AssetBundle
         'js/wow.min.js',
         'js/jquery.easing.min.js',
         'js/jquery.waypoints.min.js',
-        'js/smart.js'
+        'js/smart.js',
         
     ];
     public $depends = [

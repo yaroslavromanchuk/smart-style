@@ -36,12 +36,42 @@ class CarsController extends Controller
      */
     public function actionIndex()
     {
+        
+        $PageSize = 15;
+        if(Yii::$app->request->queryParams['page_size']){
+          
+       // $cookies = Yii::$app->response->cookies;
+        if (Yii::$app->request->cookies->has('page_size')){
+         Yii::$app->response->cookies->remove('page_size');
+         
+         
+            //$cookies->getValue('page_size', Yii::$app->request->queryParams['page_size']);
+        }
+        
+        // добавление новой куки в HTTP-ответ
+       Yii::$app->response->cookies->add(new \yii\web\Cookie([
+    'name' => 'page_size',
+    'value' => Yii::$app->request->queryParams['page_size']
+]));
+       $PageSize = Yii::$app->request->queryParams['page_size'];
+        }else{
+            $PageSize = Yii::$app->request->cookies->getValue('page_size', 15);
+        }
+        
         $searchModel = new CarsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $dataProvider->pagination->PageSize = $PageSize;
+        
+       //$filter  = new stdClass();
+       // $filter->year = [];
+        $this->view->title = Yii::t('app', 'Купити автомобіль');
+        
+        $this->view->registerMetaTag(['name' => 'keywords', 'content' => 'smart, smart-style, купити, бу авто'],'keywords');
+        $this->view->registerMetaTag(['name' => 'description', 'content' => 'Кращі бу атомобілі – купити в ➦ Smart-style ☎:(044) 500-33-55,(050) 688-58-31,(093) 688-58-31. Гарантія якості ☑ Найкраща ціна $'], 'description');
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $dataProvider
         ]);
     }
 

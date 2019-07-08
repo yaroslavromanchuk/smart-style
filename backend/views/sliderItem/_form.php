@@ -17,8 +17,13 @@ use yii\widgets\ActiveForm;
     ['prompt'=>'Виберіть слайдер якому належитиме фото']
             ) ?>
 
-    <!--<?= $form->field($model, 'src')->textInput(['maxlength' => true]) ?>-->
+   
+    
+     <?= $form->field($model, 'href')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'file')->fileInput()->label('Фото для слайду') ?>
+    <?php if($model->src){ ?>
+    <img src="<?=Yii::getAlias('@frontend/web').$model->src?>" style="width: 300px;">
+   <?php } ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Зберегти'), ['class' => 'btn btn-success']) ?>

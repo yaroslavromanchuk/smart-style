@@ -11,17 +11,27 @@ use frontend\models\Cars;
  */
 class CarsSearch extends Cars
 {
+    
+    public $categories;
+    public $min_price;
+    public $max_price;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'year', 'price', 'currency_id', 'categories_id', 'brand_id', 'model_id', 'body_id', 'mileage', 'region_id', 'city_id', 'damage', 'custom', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
-            [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk'], 'safe'],
+            [['id',  'price', 'min_price', 'max_price', 'currency_id', 'status_id',  'model_id', 'body_id', 'mileage', 'region_id', 'city_id', 'damage', 'custom', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
+            [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk', 'categories', 'year', 'models', 'brand', 'body'], 'safe'],
             [['engine'], 'number'],
         ];
     }
+     public function attributes()
+{
+    // делаем поле зависимости доступным для поиска
+    return array_merge(parent::attributes(), ['categories', 'models', 'brand', 'body']);
+}
+
 
     /**
      * {@inheritdoc}
@@ -41,30 +51,75 @@ class CarsSearch extends Cars
      */
     public function search($params)
     {
-        $query = Cars::find();
+        
+       // echo  print_r($params);
+      // exit();
+       
+       
+       
+       
+        $query = Cars::find()->joinWith('categories')
+                ->joinWith('brand')
+                ->andFilterWhere(['status_id'=> 2]);
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-        ]);
+            'sort'=> [
+                'attributes' => [
+                    'id' =>[
+                        'default' => SORT_ASC,
+                    ],
+                    'year',
+                    'price' => [
+                        'asc' => ['price' => SORT_ASC],
+                         'desc' => ['price' => SORT_DESC],
+                        'label' => 'Ціна'
+                    ],
+                    
+                    'brand_id' => [
+                                'asc' => ['brand_id' => SORT_ASC],
+                               // 'desc' => ['brand_id' => SORT_DESC],
+                                //'default' => SORT_ASC,
+                                'label' => 'Марка',
+                    ],
+        ],
+                'defaultOrder' => ['id' => SORT_DESC]
+    ],
+    'pagination' => [
+                 'defaultPageSize' => 3,
+                'pageSizeLimit' => [3, 100],
+    ]
+ ]);
+     
+           
+          
+      
+        $dataProvider->sort->enableMultiSort = true;
 
         $this->load($params);
+        
+         
+         // $dataProvider->pagination->defaultPageSize = Yii::$app->request->cookies->getValue('page_size', 15);
+        
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+             $query->joinWith(['auto_categories'])->joinWith(['auto_marks']);
             return $dataProvider;
         }
-
+       
+        
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'year' => $this->year,
-            'price' => $this->price,
+           // 'year' => $this->year,
+          //  'price' => $this->price,
             'currency_id' => $this->currency_id,
             'categories_id' => $this->categories_id,
-            'brand_id' => $this->brand_id,
+           // 'brand_id' => $this->brand_id,
             'model_id' => $this->model_id,
             'body_id' => $this->body_id,
             'mileage' => $this->mileage,
@@ -88,6 +143,7 @@ class CarsSearch extends Cars
             'seats' => $this->seats,
             'country_id' => $this->country_id,
             'spare_parts' => $this->spare_parts,
+            'status_id' => $this->status_id,
         ]);
 
         $query->andFilterWhere(['like', 'modification', $this->modification])
@@ -95,8 +151,14 @@ class CarsSearch extends Cars
             ->andFilterWhere(['like', 'VIN', $this->VIN])
             ->andFilterWhere(['like', 'video_key', $this->video_key])
             ->andFilterWhere(['like', 'description_ru', $this->description_ru])
-            ->andFilterWhere(['like', 'description_uk', $this->description_uk]);
-
+            ->andFilterWhere(['like', 'description_uk', $this->description_uk])
+            ->andFilterWhere(['in', 'year', $this->year])
+            ->andFilterWhere(['and',
+                ['>=', 'price', $this->min_price],
+                ['<=', 'price', $this->min_price],
+                    ])
+            ->andFilterWhere(['in', 'categories_id', $this->categories])
+        ->andFilterWhere(['in', 'brand_id', $this->brand]);
         return $dataProvider;
     }
 }

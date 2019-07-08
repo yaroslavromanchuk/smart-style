@@ -124,25 +124,31 @@ class CarsController extends Controller
     public function actionCreate()
     {
         $model = new Cars();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                 $file = UploadedFile::getInstance($model, 'file');
+      
+      // echo $id;
+      // exit();
+        if ($model->load(Yii::$app->request->post())) {
+             $id =  Cars::find()->one()->id;
+       $id++;
+            $file = UploadedFile::getInstance($model, 'file');
             if ($file && $file->tempName) {
                 $model->file = $file;
                 if ($model->validate(['file'])) {
-                  $dir = Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/');
-                         Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id)); //создаст папку если ее нет!
-                  $fileName = $model->file->baseName . '.' . $model->file->extension;
+                  $dir = Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/600-600/');
+                         Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/600-600')); //создаст папку если ее нет!
+                  $fileName = time() . '.' . $model->file->extension;
                     $model->file->saveAs($dir . $fileName);
                     $model->file = $fileName; // без этого ошибка
-                    Image::getImagine()->open($dir . $fileName)->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
-                    $model->image = '/uploads/cars/'.$model->id.'/'. $fileName;
-                    
-                    if($model->save()){
-                         return $this->redirect(['view', 'id' => $model->id]);
-                    }
-                    
+                   $mig =  Image::getImagine()->open($dir . $fileName);
+                   $mig->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
+                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/270-190')); //создаст папку если ее нет!
+                   Image::thumbnail($dir . $fileName, 270, 190)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/270-190/') . $fileName, ['quality' => 70]);
+                    $model->image =  $fileName;  
                 }
             }
+            if($model->save()){
+                         return $this->redirect(['view', 'id' => $model->id]);
+                    }
             
                
            
@@ -170,21 +176,33 @@ class CarsController extends Controller
             if ($file && $file->tempName) {
                 $model->file = $file;
                 if ($model->validate(['file'])) {
-                    $dir = Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/');
-                      
-                    if(file_exists(Yii::getAlias('@app/../frontend/web'.$current_image)))
+                    $dir = Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600/');
+                        Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600')); //создаст папку если ее нет!
+                    if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600/'.$current_image)))
                         {
                             //удаляем файл
-                            unlink(Yii::getAlias('@app/../frontend/web'.$current_image));
+                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600/'.$current_image));
                             $model->image = '';
+                            if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190/'.$current_image))){
+                                 //удаляем файл
+                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190/'.$current_image));
+                            $model->image = '';
+                            
                         }
+                        }
+                        
                
                  // Yii::$app->controller->createDirectory(Yii::getAlias('../../frontend/web/uploads/cars/'.$model->id)); 
-                  $fileName = $model->file->baseName . '.' . $model->file->extension;
+                  $fileName = time() . '.' . $model->file->extension;
                     $model->file->saveAs($dir . $fileName);
                     $model->file = $fileName; // без этого ошибка
-                    Image::getImagine()->open($dir . $fileName)->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
-                    $model->image = '/uploads/cars/'.$model->id.'/'. $fileName;
+                   // Image::getImagine()->open($dir . $fileName)->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
+                    $mig =  Image::getImagine()->open($dir . $fileName);
+                   $mig->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
+                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190')); //создаст папку если ее нет!
+                   Image::thumbnail($dir . $fileName, 270, 190)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190/') . $fileName, ['quality' => 70]);
+                    
+                    $model->image =  $fileName;
                     
                     if($model->save()){
             return $this->redirect(['view', 'id' => $model->id]);

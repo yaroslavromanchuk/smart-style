@@ -44,6 +44,7 @@ li.menu-item.menu-item-has-children.animate-dropdown.dropdown.open > a{
     text-align: center;
     box-shadow: 0 0 2px rgba(0,0,0,0.5);
    /* background: rgba(255, 255, 255, 0.08);    */
+   border-radius: 6px;
 }
 .open > .dropdown-menu.yamm.departments-menu-dropdown .menu-item:hover{
    box-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
@@ -55,6 +56,7 @@ li.menu-item.menu-item-has-children.animate-dropdown.dropdown.open > a{
     padding: 15px 25px;
    /* background: linear-gradient(to left, #da141e, #af0a13);*/
    background: #86050e;
+   border-radius: 6px;
     
 }
 .yamm .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus{
@@ -114,6 +116,14 @@ ul.products > li.product.list-view.list-view-small .button:active::after,
  /* background-color: #c30c14;*/
     background: linear-gradient(to left, #da141e, #a00a12);}
 
+.woocommerce-pagination ul.page-numbers > li.active  a{
+    background-color: #c30c14;
+    color: white;
+}
+.woocommerce-pagination ul.page-numbers > li.active  a:hover{
+        border-color: red;
+        
+}
 .hero-action-btn:hover {
   background-color: #dc141e !important; }
 
