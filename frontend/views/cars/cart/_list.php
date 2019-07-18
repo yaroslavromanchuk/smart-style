@@ -1,0 +1,2 @@
+<?=$model->getOptions()->one()->name?>
+

@@ -12,6 +12,7 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+      //  'css/bootstrap.css',
         'css/bootstrap.min.css',
         'https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,700italic,800,800italic,600italic,400italic,300italic',
         'css/font-awesome.min.css',
@@ -23,7 +24,7 @@ class AppAsset extends AssetBundle
         
     ];
     public $js = [
-             //   'js/jquery.min.js',
+              //  'js/jquery.min.js',
         'js/tether.min.js',
         'js/bootstrap-hover-dropdown.min.js',
         'js/owl.carousel.min.js',
@@ -35,7 +36,7 @@ class AppAsset extends AssetBundle
         
     ];
     public $depends = [
-        'yii\web\YiiAsset',
+       'yii\web\YiiAsset',
 
         'yii\bootstrap\BootstrapAsset',
     ];

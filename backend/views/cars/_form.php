@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use dosamigos\tinymce\TinyMce;
-
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Cars */
@@ -14,7 +14,17 @@ use dosamigos\tinymce\TinyMce;
 <div class="cars-form">
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
+    
+    <?= $form->field($model, 'add_cars')->widget(DatePicker::class, [
+    'language' => 'uk',
+    'dateFormat' => 'yyyy-MM-dd',
+]) ?>
+    
+   <?= $form->field($model, 'admin_id')->dropdownList(
+           \common\models\User::find()->select(['lastName', 'id'])->where('status = 10')->indexBy('id')->column(),
+           ['prompt'=>'Виберіть відповідального']
+           ) ?>
+    
     <?= $form->field($model, 'year')->textInput() ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
@@ -54,18 +64,7 @@ use dosamigos\tinymce\TinyMce;
         ]
             ) ?>
 
-    <?= $form->field($model, 'modification')->widget(TinyMce::className(), [
-    'options' => ['rows' => 6],
-    'language' => 'ru',
-    'clientOptions' => [
-        'plugins' => [
-            'advlist autolink lists link charmap  print hr preview pagebreak',
-            'searchreplace wordcount textcolor visualblocks visualchars code fullscreen nonbreaking',
-            'save insertdatetime media table contextmenu template paste image'
-        ],
-        'toolbar' => 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
-    ]
-]);//->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'modification')->widget(TinyMce::className());//->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'body_id')->dropdownList(
              \backend\models\AutoBodystyles::find()->select(['name', 'id'])->indexBy('id')->column(),
@@ -99,7 +98,7 @@ use dosamigos\tinymce\TinyMce;
             )?>
 
     <?= $form->field($model, 'file')->fileInput()->label('Головне фото') ?>
-
+    <?= Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$model->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:50px; padding:1px;'])?>
     <!--<?= $form->field($model, 'damage')->dropDownList([ 1 => '1', 0 => '0', ], ['prompt' => '']) ?>
 
     <?= $form->field($model, 'custom')->dropDownList([ 1 => '1', 0 => '0', ], ['prompt' => '']) ?>-->
@@ -165,9 +164,25 @@ use dosamigos\tinymce\TinyMce;
          \backend\models\CarsStatus::find()->select(['name', 'id'])->indexBy('id')->column(),
     ['prompt'=>'Вкажіть статус авто']
             ) ?>
-
+    
     <?= $form->field($model, 'spare_parts')->checkbox([ 'value' => 1, 'label' => 'На запчастини', ]) ?>
-
+    <p>Опції автомобіля</p>
+    <div class="row">
+        
+    
+    <?php 
+    foreach ($options as $o) { ?>
+        <div class="col-xs-3">
+       <div class="form-group field-autooptions-name required">
+           <input type="hidden" name="AutoOptions[<?=$o->id?>]" value="0">
+           <label>
+               <input type="checkbox" id="autooptions-<?=$o->id?>" name="AutoOptions[<?=$o->id?>]" value="<?=$o->id?>"> <?=$o->name?>
+           </label>
+    <div class="help-block"></div>
+</div>
+            </div>
+    <?php } ?>
+    </div>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>

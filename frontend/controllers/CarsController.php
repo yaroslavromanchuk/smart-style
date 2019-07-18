@@ -36,7 +36,7 @@ class CarsController extends Controller
      */
     public function actionIndex()
     {
-        
+        $this->view->body_class = 'page left-sidebar';
         $PageSize = 15;
         if(Yii::$app->request->queryParams['page_size']){
           
@@ -63,15 +63,19 @@ class CarsController extends Controller
 
         $dataProvider->pagination->PageSize = $PageSize;
         
-       //$filter  = new stdClass();
-       // $filter->year = [];
-        $this->view->title = Yii::t('app', 'Купити автомобіль');
+        $page =  $this->findModelPage(2);
+        if(!$page->nofollow){$this->view->registerMetaTag(['name' => 'robots', 'content' => 'noindex, follow'],'robots'); }
+       $this->view->title = Yii::t('app', $page->title);
+       $this->view->registerMetaTag(['name' => 'keywords', 'content' => $page->keywords],'keywords');
+        $this->view->registerMetaTag(['name' => 'description', 'content' => $page->description], 'description');
         
-        $this->view->registerMetaTag(['name' => 'keywords', 'content' => 'smart, smart-style, купити, бу авто'],'keywords');
-        $this->view->registerMetaTag(['name' => 'description', 'content' => 'Кращі бу атомобілі – купити в ➦ Smart-style ☎:(044) 500-33-55,(050) 688-58-31,(093) 688-58-31. Гарантія якості ☑ Найкраща ціна $'], 'description');
+        $this->view->registerMetaTag(['name' => 'image', 'content' => '/uploads/page/'.$page->image],'image');
+        $this->view->registerMetaTag(['property' => 'og:image', 'content' => '/uploads/page/'.$page->image],'property');
         return $this->render('index', [
+            'page' => $page,
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'recommended' => Cars::find()->where(['status_id'=> 2, 'top' => 1])->limit(4)->all()
         ]);
     }
 
@@ -83,8 +87,26 @@ class CarsController extends Controller
      */
     public function actionView($id)
     {
+        $this->view->body_class = 'single-product full-width';
+        $model = $this->findModel($id);
+        $model->views = (int)($model->views+1);
+        if($model->validate()){
+        $model->save();
+        }
+         $this->view->title = $model->brand->name.' '.$model->model->name.' '.$model->year;//Yii::t('app', 'Каталог автомобілів');
+         $page =  $this->findModelPage(3);
+         
+         if(!$page->nofollow){$this->view->registerMetaTag(['name' => 'robots', 'content' => 'noindex, follow'],'robots'); }
+       $this->view->registerMetaTag(['name' => 'keywords', 'content' => $page->keywords],'keywords');
+
+        $this->view->registerMetaTag(['name' => 'description', 'content' => 'Купити '.$model->brand->name.' '.$model->model->name.' '.$model->year.' '.$page->description.' '.$model->price.'$'], 'description');
+        $this->view->registerMetaTag(['name' => 'image', 'content' => '/uploads/cars/180-180/'.$model->image],'image');
+        $this->view->registerMetaTag(['property' => 'og:image', 'content' => '/uploads/cars/180-180/'.$model->image],'property');
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'page' => $page,
+            'model' => $model,
+           // 'recommended' => Cars::find()->where(['status_id'=> 2, 'top' => 1])->limit(1)->all(),
+            'recommended' => Cars::find()->where(['status_id'=>2])->andWhere(' id != '.$model->id.' and price <='.($model->price+1000).' and price >='.($model->price-1000))->orderBy('views DESC')->limit(4)->all(),
         ]);
     }
 
@@ -93,17 +115,38 @@ class CarsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreateorder()
     {
-        $model = new Cars();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = new \common\models\Orders();
+      //  print_r(Yii::$app->request->post());
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->admin_id = 1;
+            $model->date_add = date('Y-m-d');
+            if ($model->save()) {
+                $car  = $this->findModel($model->cars_id);
+                $car->status_id = 3;
+                $car->save();
+            Yii::$app->response->refresh(); //очистка данных из формы
+            echo "<p class='message_sub ok' style='color: green;padding: 15px 30px;text-align: center;'>Ваше замовлення прийняте! Найближчим часом з Вами звяжеться наш менеджер</p>";
+            exit;
         }
+           // return $this->redirect(['view', 'id' => $model->id]);
+        }else {
+       // print_r($model->errors);
+        //Проверяем наличие фразы в массиве ошибки
+        if(strpos($model->errors['email'][0], 'вже зайнято') !== false) {
+            echo "<p class='message_sub error' style='color: red;padding: 15px 30px;text-align: center;'>Ви вже підписані на наші новини!</p>";
+        }elseif(strpos($model->errors['phone'][0], 'вже зайнято') !== false){
+             echo "<p class='message_sub error' style='color: red;padding: 15px 30px;text-align: center;'>Ви вже підписані на наші новини!</p>";
+        }else{
+             echo "<p class='message_sub error' style='color: red;padding: 15px 30px;text-align: center;'>Помилка оформлення замовлення.</p>";
+        }          
+    }        
+    exit;
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+       // return $this->render('create', [
+         //   'model' => $model,
+        //]);
     }
 
     /**
@@ -113,7 +156,7 @@ class CarsController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+  /*  public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
@@ -124,7 +167,7 @@ class CarsController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
+    }/*
 
     /**
      * Deletes an existing Cars model.
@@ -133,12 +176,12 @@ class CarsController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+  /*  public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
+    }*/
 
     /**
      * Finds the Cars model based on its primary key value.

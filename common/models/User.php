@@ -191,4 +191,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->lastName.' '.$this->firstName;
     }
+    public function getCars()
+   {
+        return $this->hasMany(Cars::className(), ['admin_id' => 'id']);
+   }
 }

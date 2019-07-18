@@ -9,12 +9,13 @@ use Yii;
  *
  * @property int $id
  * @property int $cars_id
- * @property string $src
+ * @property string $image
  *
  * @property Cars $cars
  */
 class CarsImages extends \yii\db\ActiveRecord
 {
+    public $file;
     /**
      * {@inheritdoc}
      */
@@ -29,9 +30,10 @@ class CarsImages extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cars_id', 'src'], 'required'],
+            [['file'], 'file', 'extensions' => 'png, jpg'],
+            [['cars_id', 'image', 'file'], 'required'],
             [['cars_id'], 'integer'],
-            [['src'], 'string', 'max' => 150],
+            [['image'], 'string', 'max' => 150],
             [['cars_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cars::className(), 'targetAttribute' => ['cars_id' => 'id']],
         ];
     }
@@ -43,8 +45,8 @@ class CarsImages extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'cars_id' => Yii::t('app', 'Cars ID'),
-            'src' => Yii::t('app', 'Src'),
+            'cars_id' => Yii::t('app', '№ авто'),
+            'image' => Yii::t('app', 'Фото'),
         ];
     }
 

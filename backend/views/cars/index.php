@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
+use \backend\models\CarsImages;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CarsSearch */
@@ -16,20 +18,65 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Cars'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Додати автівку'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+          //  ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'add_cars',
+            [                                                  // name свойство зависимой модели owner
+                        'attribute' => 'admin_id',
+                        //'label' => 'Категорія',
+                        'value' => function($data){ return $data->admin->lastName;},
+                    ],
             'year',
             'price',
-            'currency_id',
-            'categories_id',
+                    [                                                  // name свойство зависимой модели owner
+                        'attribute' => 'categories',
+                        //'label' => 'Категорія',
+                        'value' => 'categories.name',
+                    ],
+             [                                                  // name свойство зависимой модели owner
+                        'attribute' => 'diller',
+                        //'label' => 'Категорія',
+                        'value' => 'diller.name',
+                    ],
+             'views',
+            [
+            'label' => 'Фото',
+            'format' => 'raw',
+            'value' => function($data){
+        $list = '<div class="row"><div class="col-xs-1">'.Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$data->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:30px; padding:1px;']).'</div>';
+        foreach (CarsImages::find()->where('cars_id = '.$data->id)->all() as $value) {
+                 $list.=   '<div class="col-xs-1" >'.Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$value->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:30px; padding:1px;']).'</div>';  
+                } 
+                $list.= '</div>';
+                 return $list;
+            },
+        ],
+         
+                    [
+    //'label' => 'Додати',
+    'format' => 'raw',
+    'value' => function($data){
+        return Html::a(
+            '<span class="glyphicon glyphicon-eye-plus">+</span>',
+             ['images/create', 'cars_id' => $data->id],
+                ['style' => 'padding: 15px;'],
+            [
+                'title' => 'Додати фото',
+                'target' => '_blank'
+            ]
+        );
+    }
+],
+           
+           // 'categories_id',
             //'brand_id',
             //'model_id',
             //'modification',

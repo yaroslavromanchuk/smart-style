@@ -11,9 +11,9 @@ class ContactsController extends Controller
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Дякуємо, що зв\'язалися з нами. Ми відповімо Вам якнайшвидше.'));
             } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Під час надсилання повідомлення сталася помилка.'));
             }
 
             return $this->refresh();

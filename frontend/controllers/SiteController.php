@@ -13,6 +13,7 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 
 
+
 /**
  * Site controller
  */
@@ -23,7 +24,7 @@ class SiteController extends Controller
      */
     public function behaviors()
     {
-      
+      $this->view->body_class = 'page home page-template-default';
         
         return [
             'access' => [
@@ -87,15 +88,26 @@ class SiteController extends Controller
     public function actionIndex()
     {
        // $this->layout = '@frontend/views/layouts/fluid/main.php';
-     
+    $page =  $this->findModelPage(1);
+    $this->view->title = Yii::t('app', $page->title);
+    if(!$page->nofollow){$this->view->registerMetaTag(['name' => 'robots', 'content' => 'noindex, follow'],'robots'); }
+        $this->view->registerMetaTag(['name' => 'keywords', 'content' => $page->keywords],'keywords');
+        $this->view->registerMetaTag(['name' => 'description', 'content' => $page->description], 'description');
         
+        $this->view->registerMetaTag(['name' => 'image', 'content' => '/uploads/page/'.$page->image],'image');
+        $this->view->registerMetaTag(['property' => 'og:image', 'content' => '/uploads/page/'.$page->image],'property');
+         
+         
         $model = [];
         $block = [
                     ['block'=>'slider', 'model'=> $model],
                     ['block'=>'features-list', 'model'=> $model],
-                    ['block'=>'products-carousel-tabs', 'model'=>$model]
+                   // ['block'=>'products-carousel-tabs', 'model'=>$model]
             ];
-        return $this->render('index', ['block'=>$block]);
+        return $this->render('index', [
+            'page' => $page,
+            'block'=>$block,
+            ]);
     }
    
     
@@ -103,7 +115,7 @@ class SiteController extends Controller
     {
         return $this->render('api');
     }
-    
+   
 
     /**
      * Logs in a user.
@@ -210,4 +222,5 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+    
 }

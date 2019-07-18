@@ -1,21 +1,14 @@
 <?php
-
 /* @var $this yii\web\View */
-use yii\helpers\Html;
-$this->registerJsFile('js/jquery.min.js', ['depends' => [yii\web\JqueryAsset::className()]]); 
-$this->title = 'Smart-Style - Продаж кращих БУ авто в Україні';
+//$this->title = 'Кріщі БУ автомобілі в Україні';
 ?> 
 <div id="primary" class="content-area cars-index">
     <main id="main" class="site-main">
-<?php if(count($block)){
-     foreach ($block as $value) {
-        echo $this->render('block/'.$value['block'].'.php', ['model' => $value['model']]);
-    } 
-     }
-     ?>
-</main>
+        <?=$this->render('../'.$page->template->url.'.php', ['model' => $page, 'block'=>$block])?>
+    </main>
 </div>
-
+<?php 
+$this->registerJsFile('js/jquery.min.js', ['depends' => [yii\web\JqueryAsset::className()]]); 
 
 
   

@@ -3,12 +3,14 @@
 namespace backend\models;
 
 use Yii;
-use yii\web\UploadedFile;
+use \common\models\User;
 
 /**
  * This is the model class for table "cars".
  *
  * @property int $id
+ * @property string $add_cars 
+ * @property int $admin_id 
  * @property int $year
  * @property int $price
  * @property int $currency_id
@@ -21,8 +23,8 @@ use yii\web\UploadedFile;
  * @property int $region_id
  * @property int $city_id
  * @property string $image
- * @property string $damage 1-da, 0- net
- * @property string $custom 1-da, 0- net
+ * @property int $damage true-da, false- net
+ * @property int $custom 1-da, 0- net
  * @property string $VIN
  * @property int $gearbox_id
  * @property int $drive_id
@@ -43,11 +45,17 @@ use yii\web\UploadedFile;
  * @property int $seats
  * @property int $country_id
  * @property int $spare_parts
+ * @property int $status_id
+ * @property int $top
+ * @property int $diller_id
+ * @property int $views
  *
  * @property AutoBodystyles $body
  * @property AutoGearboxes $gearbox
  * @property AutoModels $model
  * @property AutoStates $region
+ *  @property CarsStatus $status 
+ * @property CarsDiller $diller 
  * @property AutoMarks $brand
  * @property AutoCategories $categories
  * @property AutoCities $city
@@ -57,6 +65,7 @@ use yii\web\UploadedFile;
  * @property AutoDriverTypes $drive
  * @property AutoOil $fuel
  * @property CarsImages[] $carsImages
+ * @property CarsOptions[] $carsOptions
  */
 class Cars extends \yii\db\ActiveRecord
 {
@@ -76,9 +85,11 @@ class Cars extends \yii\db\ActiveRecord
     {
         return [
             [['file'], 'file', 'extensions' => 'png, jpg'],
-            [['year', 'price', 'currency_id', 'categories_id',  'brand_id', 'model_id',  'body_id', 'mileage', 'region_id', 'city_id', 'image'], 'required'],
-            [['year', 'price', 'currency_id', 'categories_id', 'status_id', 'brand_id', 'model_id', 'damage', 'custom', 'body_id', 'mileage', 'region_id', 'city_id', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
+            [['image'], 'image', 'extensions' => 'png, jpg'],
+            [['add_cars', 'admin_id', 'year', 'price', 'currency_id', 'categories_id',  'status_id', 'diller_id',  'brand_id', 'model_id',  'body_id', 'mileage', 'region_id', 'city_id', 'image'], 'required'],
+            [[ 'admin_id', 'year', 'price', 'currency_id', 'categories_id', 'status_id', 'diller_id', 'brand_id', 'model_id', 'damage', 'custom', 'body_id', 'mileage', 'region_id', 'city_id', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
             [['engine'], 'number'],
+            [['add_cars'], 'safe'],
             [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk'], 'string', 'max' => 255],
             [['body_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoBodystyles::className(), 'targetAttribute' => ['body_id' => 'id']],
             [['gearbox_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoGearboxes::className(), 'targetAttribute' => ['gearbox_id' => 'id']],
@@ -93,6 +104,7 @@ class Cars extends \yii\db\ActiveRecord
             [['drive_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoDriverTypes::className(), 'targetAttribute' => ['drive_id' => 'id']],
             [['fuel_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoOil::className(), 'targetAttribute' => ['fuel_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => CarsStatus::className(), 'targetAttribute' => ['status_id' => 'id']],
+            [['diller_id'], 'exist', 'skipOnError' => true, 'targetClass' => CarsDiller::className(), 'targetAttribute' => ['diller_id' => 'id']],
         ];
     }
 
@@ -138,15 +150,30 @@ class Cars extends \yii\db\ActiveRecord
             'country_id' => Yii::t('app', 'Країна з якої пригнане авто'),
             'spare_parts' => Yii::t('app', 'На запчастини'),
             'status_id' => Yii::t('app', 'Статус'),
+            'views' => Yii::t('app', 'Переглядів'),
+            'categories' => Yii::t('app', 'Тип авто'),
+            'diller_id' => Yii::t('app', 'Продавець'),
+            'diller' => Yii::t('app', 'Продавець'),
+            'options' => Yii::t('app', 'Опції авто'),
+            'admin_id' => Yii::t('app', 'Відповідальний'),
+            'add_cars' => Yii::t('app', 'Дата створення'),
         ];
     }
 
+    
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getBody()
     {
         return $this->hasOne(AutoBodystyles::className(), ['id' => 'body_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDiller()
+    {
+        return $this->hasOne(CarsDiller::className(), ['id' => 'diller_id']);
     }
     /**
      * @return \yii\db\ActiveQuery
@@ -251,4 +278,18 @@ class Cars extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CarsImages::className(), ['cars_id' => 'id']);
     }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCarsOptions()
+    {
+        return $this->hasMany(CarsOptions::className(), ['cars_id' => 'id']);
+    }
+    /**
+    * @return \yii\db\ActiveQuery
+    */
+   public function getAdmin()
+   {
+       return $this->hasOne(User::className(), ['id' => 'admin_id']);
+   }
 }

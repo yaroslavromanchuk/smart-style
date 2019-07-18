@@ -1,21 +1,63 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Cars */
+$this->registerJsFile('js/jquery.min.js', ['depends' => [yii\web\JqueryAsset::className()]]); 
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Cars'), 'url' => ['index']];
+//$this->title = $model->getBrand()->one()->name.' '.$model->getModel()->one()->name;
+
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Каталог авто'), 'url' => ['cars/index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerCssFile('css/cars-list.css'); 
+$this->registerCssFile('/css/gallery/lightgallery.css');
+//$this->registerCssFile(Url::toRoute('css/cars-list.css'));
 \yii\web\YiiAsset::register($this);
 ?>
+
+<div id="primary" class="content-area">
+			<main id="main" class="site-main">		
+				<div class="product">
+					<div class="single-product-wrapper">
+						<div class="product-images-wrapper">
+							<!--<span class="onsale">Sale!</span>-->
+                                             <?=$this->render('cart/_images-block', ['model' => $model])?>
+						</div><!-- /.product-images-wrapper -->
+                    <?=$this->render('cart/_single-product-summary', ['model' => $model, 'title' => Html::encode($this->title)])?>
+					</div><!-- /.single-product-wrapper -->
+	<?=$this->render('cart/_description', ['model' => $model])?>
+                                        <?php if(count($recommended)){ ?><section class="section-product-cards-carousel">
+		<header>
+			<h2 class="h1"><?=Yii::t('app', 'Автомобілі які можуть Вас зацікавити')?></h2>
+			<div class="owl-nav">
+                            <a href="#products-carousel-prev"  data-target="#recommended-product" class="slider-prev"><i class="fa fa-angle-left"></i></a>
+                            <a href="#products-carousel-next" data-target="#recommended-product" class="slider-next"><i class="fa fa-angle-right"></i></a>
+			</div>
+		</header>
+                <div id="recommended-product" class="recommended-product">
+			<div class="woocommerce columns-4 card-car" style="margin-top: 10px">
+				<div class="products owl-carousel products-carousel columns-4">
+                                    <?php foreach ($recommended as $t) {
+                                         echo $this->render('_product-grid', ['model' => $t]);  
+                                       } ?>
+				</div>
+			</div>
+		</div>
+    </section>
+            <?php } ?>
+				</div><!-- /.product -->
+
+			</main><!-- /.site-main -->
+		</div><!-- /.content-area -->
+
+				
+
+                
+                
+                
 <div class="cars-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
+   <!-- <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
@@ -24,47 +66,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'year',
-            'price',
-            'currency_id',
-            'categories_id',
-            'brand_id',
-            'model_id',
-            'modification',
-            'body_id',
-            'mileage',
-            'region_id',
-            'city_id',
-            'image',
-            'damage',
-            'custom',
-            'VIN',
-            'gearbox_id',
-            'drive_id',
-            'fuel_id',
-            'consumption_route',
-            'consumption_city',
-            'consumption_combine',
-            'engine',
-            'power_hp',
-            'power_kw',
-            'color_id',
-            'metallic',
-            'post_auctions',
-            'video_key',
-            'description_ru',
-            'description_uk',
-            'doors',
-            'seats',
-            'country_id',
-            'spare_parts',
-        ],
-    ]) ?>
+    </p>-->
 
 </div>
+<?php
+$script = <<< JS
+        $(document).ready(function () {
+            $('.thumbnails-single .owl-stage').lightGallery();
+        });
+JS;
+
+
+$this->registerJsFile('/js/gallery/lightgallery.js', ['depends' => [yii\web\JqueryAsset::className()]]);
+$this->registerJs($script, yii\web\View::POS_READY);

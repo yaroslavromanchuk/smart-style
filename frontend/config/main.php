@@ -33,6 +33,18 @@ return [
                     'enableCookieValidation' => false,
                     'enableCsrfValidation' => false,
                           ],
+        'mailer' => [
+         'class' => 'yii\swiftmailer\Mailer',
+        // 'useFileTransport' => false,
+         'transport' => [
+             'class' => 'Swift_SmtpTransport',
+             'host' => 'smart-style.com.ua',  // e.g. smtp.mandrillapp.com or smtp.gmail.com
+             'username' => 'info@smart-style.com.ua',
+             'password' => 'ed$n.p%ThJbI',
+             'port' => '465', // Port 25 is a very common port too
+             'encryption' => 'ssl', // It is often used, check your provider or mail server specs
+         ],
+     ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
@@ -54,8 +66,8 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-      /*  
-        'urlManager' => [
+      
+      /*  'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,

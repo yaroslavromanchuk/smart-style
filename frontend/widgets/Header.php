@@ -8,7 +8,7 @@ class Header extends Widget
 {
      public function run() {
         return $this->render('header',[
-            'marks' => AutoMarks::find()->limit(10)->all(),
+            'marks' => AutoMarks::find()->innerjoinWith('cars')->select(['auto_marks.name', 'auto_marks.id'])->indexBy('id')->column(),
     ]);
     }
 }

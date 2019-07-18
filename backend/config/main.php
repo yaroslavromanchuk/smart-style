@@ -10,11 +10,24 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
-    'modules' => [],
-    
+    'bootstrap' => ['log', 'languages'],
+    'modules' => [
+        'languages' => [
+        'class' => 'common\modules\languages\LModule',
+        //Языки используемые в приложении
+        'languages' => [
+            'EN' => 'en',
+            'RU' => 'ru',
+            'UA' => 'uk',
+        ],
+        'default_language' => 'uk', //основной язык (по-умолчанию)
+        'show_default' => false, //true - показывать в URL основной язык, false - нет
+    ],
+    ],
+    //'sourceLanguage' => 'uk',
     'components' => [
         'request' => [
+            'baseUrl' => '',
             'csrfParam' => '_csrf-backend',
         ],
         'user' => [
@@ -45,7 +58,19 @@ return [
             'rules' => [
             ],
         ],*/
-        
+        'language'=>'uk-UA',
+        'i18n' => [
+            'translations' => [
+            'app' => [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@common/messages',
+            'sourceLanguage' => 'uk',
+            'fileMap' => [
+                'main' => 'main.php',
+            ],
+        ],
+    ],
+],
     ],
     'params' => $params,
 ];

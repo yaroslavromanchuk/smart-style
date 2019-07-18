@@ -8,7 +8,7 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p><?=Yii::$app->user->identity->getFullName()?></p>
+                <p><?=Yii::$app->user->identity->getFullName().' - '.Yii::$app->user->identity->id?></p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -32,16 +32,32 @@
                 'items' => [
                    ['label' => 'Меню', 'options' => ['class' => 'header']],
                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
-                   ['label' => Yii::t('app', 'Автомобілі'), 'icon' => 'file-code-o', 'url' => ['/cars/index']],
-                    [
+                   ['label' => Yii::t('app', 'Продажі'),
+                       'icon' => 'file-code-o',
+                       //'url' => ['/orders/index']
+                       'items'=>[
+                                     ['label' => Yii::t('app', 'Замовлення'),  'url' => ['/orders/index']],
+                                     ['label' => Yii::t('app', 'Статуси замовлення'),  'url' => ['/order-status/index']],
+                                 ]
+                       ],
+                   ['label' => 'Сторінки', 'icon' => 'file-code-o', 'url' => ['/page/index']],
+                   ['label' => Yii::t('app', 'Автівки'),
+                       'icon' => 'file-code-o',
+                       //'url' => ['/cars/index']
+                       'items'=>[
+                                     ['label' => 'Авто',  'url' => ['/cars/index']],
+                                     ['label' => 'Фото автівок',  'url' => ['/images/index']],
+                                 ]
+                       ],
+                   [
                         'label' => Yii::t('app', 'Банери'),
                         'icon' => 'file-code-o',
                        // 'url' => ['/slider/index']
                         'items' =>[
                              ['label' => 'Головний слайдер', 'icon' => 'file-code-o', 
                                  'items'=>[
-                                     ['label' => 'Всі слайдери', 'icon' => 'file-code-o', 'url' => ['/slider/index']],
-                                     ['label' => 'Фото слайдерів', 'icon' => 'file-code-o', 'url' => ['/slideritem/index']],
+                                     ['label' => 'Всі слайдери',  'url' => ['/slider/index']],
+                                     ['label' => 'Фото слайдерів', 'url' => ['/slideritem/index']],
                                  ]
                                  ],
                         ]
@@ -76,7 +92,8 @@
                     ],*/
                     [
                         'label' => 'AUTO.RIA',
-                        'url' => ['/ria/index'],
+                        'icon' => 'file-code-o',
+                       // 'url' => ['/ria/index'],
                             'items' => [
                                 ['label' => 'Тип транспорту', 'url' => ['/autocategories/index']],
                                 ['label' => 'Марки', 'url' => ['/marks/index']],

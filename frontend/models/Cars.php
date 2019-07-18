@@ -34,6 +34,7 @@ use Yii;
  * @property int $power_kw
  * @property int $color_id
  * @property int $metallic
+ * @property int $top
  * @property int $post_auctions
  * @property string $video_key
  * @property string $description_ru
@@ -42,11 +43,15 @@ use Yii;
  * @property int $seats
  * @property int $country_id
  * @property int $spare_parts
- *
+ * @property int $status_id 
+ * @property int $diller_id 
+ * @property int $views
+ * 
  * @property AutoBodystyles $body
  * @property AutoGearboxes $gearbox
  * @property AutoModels $model
  * @property AutoStates $region
+ * @property CarsStatus $status 
  * @property AutoMarks $brand
  * @property AutoCategories $categories
  * @property AutoCities $city
@@ -56,6 +61,7 @@ use Yii;
  * @property AutoDriverTypes $drive
  * @property AutoOil $fuel
  * @property CarsImages[] $carsImages
+ * @property CarsOptions[] $carsOptions 
  */
 class Cars extends \yii\db\ActiveRecord
 {
@@ -73,8 +79,8 @@ class Cars extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['year', 'price', 'currency_id', 'status_id', 'categories_id', 'brand_id', 'model_id', 'modification', 'body_id', 'mileage', 'region_id', 'city_id', 'image', 'VIN', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'engine', 'power_hp', 'power_kw', 'color_id', 'video_key', 'description_ru', 'description_uk', 'doors', 'seats', 'country_id'], 'required'],
-            [['year', 'price', 'currency_id', 'status_id', 'categories_id', 'brand_id', 'model_id', 'body_id', 'mileage', 'region_id', 'city_id', 'damage', 'custom', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
+           // [['year', 'price', 'currency_id', 'status_id', 'diller_id', 'categories_id', 'brand_id', 'model_id', 'modification', 'body_id', 'mileage', 'region_id', 'city_id', 'image', 'VIN', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'engine', 'power_hp', 'power_kw', 'color_id', 'video_key', 'description_ru', 'description_uk', 'doors', 'seats', 'country_id'], 'required'],
+            [['year', 'price', 'currency_id', 'status_id', 'diller_id', 'categories_id', 'brand_id', 'model_id', 'body_id', 'mileage', 'region_id', 'city_id', 'damage', 'custom', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'top', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts', 'views'], 'integer'],
             [['engine'], 'number'],
             [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk'], 'string', 'max' => 255],
             [['body_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoBodystyles::className(), 'targetAttribute' => ['body_id' => 'id']],
@@ -90,6 +96,7 @@ class Cars extends \yii\db\ActiveRecord
             [['drive_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoDriverTypes::className(), 'targetAttribute' => ['drive_id' => 'id']],
             [['fuel_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoOil::className(), 'targetAttribute' => ['fuel_id' => 'id']],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => CarsStatus::className(), 'targetAttribute' => ['status_id' => 'id']],
+            [['diller_id'], 'exist', 'skipOnError' => true, 'targetClass' => CarsDiller::className(), 'targetAttribute' => ['diller_id' => 'id']],
         ];
     }
 
@@ -102,13 +109,17 @@ class Cars extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'year' => Yii::t('app', 'Рік випуску'),
             'price' => Yii::t('app', 'Ціна'),
+            'min_price' => Yii::t('app', 'Від'),
+            'max_price' => Yii::t('app', 'До'),
+            'min_year' => Yii::t('app', 'Від'),
+            'max_year' => Yii::t('app', 'До'),
             'currency_id' => Yii::t('app', 'Валюта'),
-           // 'categories_id' => Yii::t('app', 'Тип авто'),
+            'categories_id' => Yii::t('app', 'Тип авто'),
             'categories' => Yii::t('app', 'Тип авто'),
             'brand_id' => Yii::t('app', 'Марка'),
             'model_id' => Yii::t('app', 'Модель'),
             'modification' => Yii::t('app', 'Модифікація'),
-            'body_id' => Yii::t('app', 'Тип кузова'),
+            'body_id' => Yii::t('app', 'Кузов'),
             'mileage' => Yii::t('app', 'Пробіг'),
             'region_id' => Yii::t('app', 'Область'),
             'city_id' => Yii::t('app', 'Місто'),
@@ -116,13 +127,14 @@ class Cars extends \yii\db\ActiveRecord
             'damage' => Yii::t('app', 'ДТП'),
             'custom' => Yii::t('app', 'Розмитнення'),
             'VIN' => Yii::t('app', 'VIN'),
-            'gearbox_id' => Yii::t('app', 'Коробка передач'),
-            'drive_id' => Yii::t('app', 'Тип приводу'),
-            'fuel_id' => Yii::t('app', 'Тип пального'),
+            'gearbox_id' => Yii::t('app', 'КПП'),
+            'gearbox' => Yii::t('app', 'Коробка передач'),
+            'drive_id' => Yii::t('app', 'Привід'),
+            'fuel_id' => Yii::t('app', 'Двигун'),
             'consumption_route' => Yii::t('app', 'Росхід палива на трасі'),
             'consumption_city' => Yii::t('app', 'Росхід палива по місту'),
             'consumption_combine' => Yii::t('app', 'Росхід палива в змішаному режимі'),
-            'engine' => Yii::t('app', 'Об\'єм двигуна'),
+            'engine' => Yii::t('app', 'Двигун'),
             'power_hp' => Yii::t('app', 'Потужність авто в кінських силах'),
             'power_kw' => Yii::t('app', 'Потужність авто в кВ'),
             'color_id' => Yii::t('app', 'Колір'),
@@ -136,9 +148,19 @@ class Cars extends \yii\db\ActiveRecord
             'country_id' => Yii::t('app', 'Країна з якої пригнане авто'),
             'spare_parts' => Yii::t('app', 'На запчастини'),
             'status_id' => Yii::t('app', 'Статус'),
+            'diller_id' => Yii::t('app', 'Продавець'),
+            'views' => Yii::t('app', 'Переглядів'),
+            'top' => Yii::t('app', 'Рекомендуємо'),
         ];
     }
     
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDiller()
+    {
+        return $this->hasOne(CarsDiller::className(), ['id' => 'diller_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -254,4 +276,22 @@ class Cars extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CarsImages::className(), ['cars_id' => 'id']);
     }
+    /** 
+    * @return \yii\db\ActiveQuery 
+    */ 
+   public function getCarsOptions() 
+   { 
+       return $this->hasMany(CarsOptions::className(), ['cars_id' => 'id']); 
+   } 
+   public function getImages($width = 0)
+    {
+       switch ($width){
+            case 600: return '/uploads/cars/600-600/'.$this->image;
+            case 270: return '/uploads/cars/270-190/'.$this->image;
+            case 180: return '/uploads/cars/180-180/'.$this->image;
+            default : return '/uploads/cars/img/'.$this->image;
+               
+       }
+    }
+    
 }

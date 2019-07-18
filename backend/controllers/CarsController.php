@@ -7,6 +7,9 @@ use backend\models\Cars;
 use backend\models\CarsSearch;
 use backend\models\AutoCities;
 use backend\models\AutoMarks;
+use backend\models\Upload;
+use \frontend\models\AutoOptions;
+use \backend\models\CarsOptions;
 
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -124,41 +127,25 @@ class CarsController extends Controller
     public function actionCreate()
     {
         $model = new Cars();
-      
-      // echo $id;
-      // exit();
         if ($model->load(Yii::$app->request->post())) {
              $id =  Cars::find()->one()->id;
-       $id++;
+             $id++;
             $file = UploadedFile::getInstance($model, 'file');
             if ($file && $file->tempName) {
                 $model->file = $file;
                 if ($model->validate(['file'])) {
-                  $dir = Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/600-600/');
-                         Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/600-600')); //создаст папку если ее нет!
-                  $fileName = time() . '.' . $model->file->extension;
-                    $model->file->saveAs($dir . $fileName);
-                    $model->file = $fileName; // без этого ошибка
-                   $mig =  Image::getImagine()->open($dir . $fileName);
-                   $mig->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
-                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/270-190')); //создаст папку если ее нет!
-                   Image::thumbnail($dir . $fileName, 270, 190)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$id.'/270-190/') . $fileName, ['quality' => 70]);
-                    $model->image =  $fileName;  
+                    $model->image = Upload::createImage($model, $id);
                 }
             }
             if($model->save()){
                          return $this->redirect(['view', 'id' => $model->id]);
                     }
-            
-               
-           
         }
-       
-
         return $this->render('create', [
             'model' => $model,
         ]);
     }
+    
 
     /**
      * Updates an existing Cars model.
@@ -170,51 +157,44 @@ class CarsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $options = AutoOptions::find()->all();
+        
+   /*    echo '<pre>';
+     print_r(Yii::$app->request->post()['AutoOptions']);
+       echo '</pre>';
+       exit();
+       */
          $current_image = $model->image;
         if ($model->load(Yii::$app->request->post())) {
              $file = UploadedFile::getInstance($model, 'file');
             if ($file && $file->tempName) {
                 $model->file = $file;
                 if ($model->validate(['file'])) {
-                    $dir = Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600/');
-                        Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600')); //создаст папку если ее нет!
-                    if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600/'.$current_image)))
-                        {
-                            //удаляем файл
-                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/600-600/'.$current_image));
-                            $model->image = '';
-                            if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190/'.$current_image))){
-                                 //удаляем файл
-                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190/'.$current_image));
-                            $model->image = '';
-                            
-                        }
-                        }
-                        
-               
-                 // Yii::$app->controller->createDirectory(Yii::getAlias('../../frontend/web/uploads/cars/'.$model->id)); 
-                  $fileName = time() . '.' . $model->file->extension;
-                    $model->file->saveAs($dir . $fileName);
-                    $model->file = $fileName; // без этого ошибка
-                   // Image::getImagine()->open($dir . $fileName)->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
-                    $mig =  Image::getImagine()->open($dir . $fileName);
-                   $mig->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
-                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190')); //создаст папку если ее нет!
-                   Image::thumbnail($dir . $fileName, 270, 190)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/'.$model->id.'/270-190/') . $fileName, ['quality' => 70]);
-                    
-                    $model->image =  $fileName;
-                    
-                    if($model->save()){
-            return $this->redirect(['view', 'id' => $model->id]);
-            }
+                   $model->image = Upload::updateImage($model,$current_image);
+                   // $model->image =  $fileName;
+                   // if($model->save()){ return $this->redirect(['view', 'id' => $model->id]); }
                 }
+            }else{
+                $model->image = $current_image;
+            }
+            if(Yii::$app->request->post()['AutoOptions']){
+                Yii::$app->db->createCommand()->delete('cars_options', ['cars_id' => $model->id])->execute();
+              foreach (Yii::$app->request->post()['AutoOptions'] as $value) {
+                  if($value){
+                  $p = new CarsOptions();
+                  $p->cars_id = $model->id;
+                  $p->options_id = $value;
+                  $p->save();       
+                  }
+              }   
             }
             
+             if($model->save()){ return $this->redirect(['view', 'id' => $model->id]); }
+           
+            
+           
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->render('update', ['model' => $model, 'options' =>$options]);
     }
 
     /**
@@ -227,13 +207,10 @@ class CarsController extends Controller
     public function actionDelete($id)
     {
       $model =  $this->findModel($id);
-      
-      if(file_exists(Yii::getAlias('@app/../frontend/web'.$model->image)))
-                        {
-                            //удаляем файл
-                            unlink(Yii::getAlias('@app/../frontend/web'.$model->image));
-                        }
-        $model->delete();
+
+       Upload::deleteImage($model);
+       
+       $model->delete();
 
         return $this->redirect(['index']);
     }
@@ -251,6 +228,6 @@ class CarsController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('cars', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('cars', 'Запрошену сторінку не знайдено.'));
     }
 }

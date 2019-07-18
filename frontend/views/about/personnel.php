@@ -1,7 +1,7 @@
 <?php
-/* @var $this yii\web\View */
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>about/personnel</h1>
+<h1><?=$this->title?></h1>
 
 <p>
     You may change the content of this page by modifying

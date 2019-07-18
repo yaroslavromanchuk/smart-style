@@ -1,13 +1,20 @@
 <?php 
 use yii\helpers\Url;
-$name = $model->getBrand()->one()->name.' '.$model->getModel()->one()->name;
+$name = $model->brand->name.' '.$model->model->name;
 $link = Url::toRoute(['cars/view', 'id' => $model->id]);
 ?>
-<div class="card">
+<div class="card <?=($model->status_id==3)?'deposit':''?> <?=($model->status_id==4)?'deposit':''?>">
+    <?php if($model->status_id==3){ ?>
+        <div class="deposit-sales-bg"></div>
+        <span class="deposit-title"><?=Yii::t('app','Резерв')?></span>
+   <?php  }elseif($model->status_id==4){ ?>
+        <div class="deposit-sales-bg"></div>
+        <span class="deposit-title"><?=Yii::t('app','Внесено задаток')?></span>
+  <?php  } ?>
     <div  style="position: relative">
         <div class="car-preview-img">
             <a href="<?=$link?>">
-                <img src="/uploads/cars/<?=$model->id.'/270-190/'.$model->image?>" class="card-img-top" title="<?=$name?>" alt="<?=$name?>" >
+                <img src="<?=$model->getImages(270)?>" class="card-img-top" title="<?=$name?>" alt="<?=$name?>" >
             </a>
         </div>
     </div>
@@ -23,30 +30,28 @@ $link = Url::toRoute(['cars/view', 'id' => $model->id]);
             </span>
             <div class="row car-info">
                 
-                    <div class="col-sm-6 float-left" style="padding-right: 0px;">
-                        <div>
-                            <i class="fas kuzov"></i><?=$model->getBody()->one()->name?>
-                        </div>
-                        <div>
-                            <i class="fas privod"></i><?=$model->getDrive()->one()->name?>
-                        </div>
+                    <div class="col-xs-6">
+                            <i class="fas kuzov"></i><?=$model->body->name?>
                     </div>
-                    <div class="col-sm-6float-left">
-                        <div>
-                            <i class="fas engine"></i><?=$model->getFuel()->one()->name?>
-                        </div>
-                        <div>
-                            <i class="fas geadrsgift"></i><?=$model->getGearbox()->one()->name?>
-                        </div>
-                    </div>
+            <div class="col-xs-6">
+                 <i class="fas privod"></i><?=$model->drive->name?>
             </div>
-            <div class="float-left no-padd price-card-list">
+                    <div class="col-xs-6">
+                            <i class="fas engine"></i><?=$model->fuel->name?>
+                    </div>
+                <div class="col-xs-6">
+                            <i class="fas geadrsgift"></i><?=$model->gearbox->name?>
+                        </div>
+                    
+            </div>
+            <div class="no-padd price-card-list">
                 <div class="w-100">
                     <span class="price">
                         <span class="icon-uah-grey"></span>
-                                            <?=$model->price.' '.$model->getCurrency()->one()->symbol?>
+                                            <?=number_format($model->price, 0, ',', ' ').' '.$model->currency->symbol?>
+                        <?php if($model->old_price){ ?><strike><?=number_format($model->old_price, 0, ',', ' ').' '.$model->currency->symbol?></strike><?php } ?>
                                             <!----></span>
-                    <a href="<?=$link?>" class="btn btn-primary">
+                    <a href="<?=$link?>" rel="nofollow" class="btn btn-primary">
                                                <?=Yii::t('app', 'Деталі')?>
                                             </a>
                 </div>

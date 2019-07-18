@@ -16,6 +16,10 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <?= $form->field($model, 'id') ?>
+    
+    <?= $form->field($model, 'add_cars') ?> 
+ 
+   <?= $form->field($model, 'admin_id') ?>
 
     <?= $form->field($model, 'year') ?>
 

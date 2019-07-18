@@ -1,17 +1,17 @@
 <?php
+use yii\helpers\Html; 
 use yii\widgets\Menu;
 use yii\bootstrap\NavBar;
  NavBar::begin([
+        'brandLabel' => Html::img('/images/logo.png',['class'=>'logo_moby']),
+        'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar navbar-primary navbar-full yamm ',
         ],
-    ]);   
-   /* <!--<div class="clearfix">
-			<button class="navbar-toggler hidden-sm-up pull-right flip" type="button" data-toggle="collapse" data-target="#header-v3">
-				&#9776;
-			</button>
-		</div>-->
-    */
+    ]);  
+?> 
+  
+    <?php 
     echo Menu::widget([
     'items' => $data,
     'options' => [
