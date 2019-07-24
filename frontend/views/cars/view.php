@@ -3,16 +3,12 @@
 use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Cars */
-$this->registerJsFile('js/jquery.min.js', ['depends' => [yii\web\JqueryAsset::className()]]); 
-
-//$this->title = $model->getBrand()->one()->name.' '.$model->getModel()->one()->name;
-
+//use yii\helpers\Url;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Каталог авто'), 'url' => ['cars/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->registerCssFile('css/cars-list.css'); 
-$this->registerCssFile('/css/gallery/lightgallery.css');
-//$this->registerCssFile(Url::toRoute('css/cars-list.css'));
+$this->registerCssFile('css/cars-list.css', ['depends' => [yii\web\JqueryAsset::className()]]); 
+$this->registerJsFile('js/jquery.min.js', ['depends' => [yii\web\JqueryAsset::className()]]); 
 \yii\web\YiiAsset::register($this);
 ?>
 
@@ -47,28 +43,8 @@ $this->registerCssFile('/css/gallery/lightgallery.css');
     </section>
             <?php } ?>
 				</div><!-- /.product -->
-
 			</main><!-- /.site-main -->
-		</div><!-- /.content-area -->
-
-				
-
-                
-                
-                
-<div class="cars-view">
-   <!-- <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>-->
-
-</div>
+		</div><!-- /.content-area -->         
 <?php
 $script = <<< JS
         $(document).ready(function () {

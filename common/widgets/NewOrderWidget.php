@@ -3,7 +3,6 @@
  * Кнопка подписки
  */
 namespace common\widgets;
-use Yii;
 use yii\base\Widget;
 use common\models\Orders;
 class NewOrderWidget extends Widget {

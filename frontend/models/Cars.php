@@ -82,7 +82,8 @@ class Cars extends \yii\db\ActiveRecord
            // [['year', 'price', 'currency_id', 'status_id', 'diller_id', 'categories_id', 'brand_id', 'model_id', 'modification', 'body_id', 'mileage', 'region_id', 'city_id', 'image', 'VIN', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'engine', 'power_hp', 'power_kw', 'color_id', 'video_key', 'description_ru', 'description_uk', 'doors', 'seats', 'country_id'], 'required'],
             [['year', 'price', 'currency_id', 'status_id', 'diller_id', 'categories_id', 'brand_id', 'model_id', 'body_id', 'mileage', 'region_id', 'city_id', 'damage', 'custom', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'top', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts', 'views'], 'integer'],
             [['engine'], 'number'],
-            [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk'], 'string', 'max' => 255],
+            [['modification', 'image', 'VIN', 'video_key'], 'string', 'max' => 255],
+            [['description_ru', 'description_uk'], 'string', 'max' => 500],
             [['body_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoBodystyles::className(), 'targetAttribute' => ['body_id' => 'id']],
             [['gearbox_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoGearboxes::className(), 'targetAttribute' => ['gearbox_id' => 'id']],
             [['model_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoModels::className(), 'targetAttribute' => ['model_id' => 'id']],
@@ -148,6 +149,7 @@ class Cars extends \yii\db\ActiveRecord
             'country_id' => Yii::t('app', 'Країна з якої пригнане авто'),
             'spare_parts' => Yii::t('app', 'На запчастини'),
             'status_id' => Yii::t('app', 'Статус'),
+            'status' => Yii::t('app', 'Наявність'),
             'diller_id' => Yii::t('app', 'Продавець'),
             'views' => Yii::t('app', 'Переглядів'),
             'top' => Yii::t('app', 'Рекомендуємо'),
@@ -286,9 +288,9 @@ class Cars extends \yii\db\ActiveRecord
    public function getImages($width = 0)
     {
        switch ($width){
-            case 600: return '/uploads/cars/600-600/'.$this->image;
-            case 270: return '/uploads/cars/270-190/'.$this->image;
-            case 180: return '/uploads/cars/180-180/'.$this->image;
+            case 800: return '/uploads/cars/800/'.$this->image;
+            case 270: return '/uploads/cars/270/'.$this->image;
+            case 180: return '/uploads/cars/180/'.$this->image;
             default : return '/uploads/cars/img/'.$this->image;
                
        }

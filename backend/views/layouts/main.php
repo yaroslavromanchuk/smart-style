@@ -17,8 +17,9 @@ if (Yii::$app->user->isGuest) {
         ['content' => $content]
     );
 } else {
-AppAsset::register($this);
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
+AppAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

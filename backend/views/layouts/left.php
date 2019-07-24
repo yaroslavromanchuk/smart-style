@@ -34,7 +34,6 @@
                    ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                    ['label' => Yii::t('app', 'Продажі'),
                        'icon' => 'file-code-o',
-                       //'url' => ['/orders/index']
                        'items'=>[
                                      ['label' => Yii::t('app', 'Замовлення'),  'url' => ['/orders/index']],
                                      ['label' => Yii::t('app', 'Статуси замовлення'),  'url' => ['/order-status/index']],
@@ -43,10 +42,16 @@
                    ['label' => 'Сторінки', 'icon' => 'file-code-o', 'url' => ['/page/index']],
                    ['label' => Yii::t('app', 'Автівки'),
                        'icon' => 'file-code-o',
-                       //'url' => ['/cars/index']
                        'items'=>[
                                      ['label' => 'Авто',  'url' => ['/cars/index']],
                                      ['label' => 'Фото автівок',  'url' => ['/images/index']],
+                                 ]
+                       ],
+                    ['label' => Yii::t('app', 'Новини'),
+                       'icon' => 'file-code-o',
+                       'items'=>[
+                                     ['label' => Yii::t('app', 'Статті'),  'url' => ['/news/index']],
+                                     ['label' => Yii::t('app', 'Категорії новин'),  'url' => ['/news/category']],
                                  ]
                        ],
                    [

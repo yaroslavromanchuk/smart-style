@@ -1,14 +1,11 @@
 <?php 
 use yii\helpers\Url;
 $attribute = $model->attributeLabels();
-
-echo $this->render('modal/_modal_credit', ['model' => $model]);
-echo $this->render('modal/_modal_orders', ['model' => $model]);
 ?>
 <div class="summary entry-summary">
 
 	<!--<span class="loop-product-categories">
-		<a href="<?=Url::toRoute('cars/index').'&CarsSearch[brand]='.$model->brand_id?>" rel="tag"><?=$model->getBrand()->one()->name?></a>
+		<a href="<?=Url::to('cars/index').'&CarsSearch[brand]='.$model->brand_id?>" rel="tag"><?=$model->getBrand()->one()->name?></a>
 	</span>--><!-- /.loop-product-categories -->
 
 	<h1 itemprop="name" class="product_title entry-title"><?=$title?></span></h1>
@@ -93,48 +90,7 @@ echo $this->render('modal/_modal_orders', ['model' => $model]);
                 </div>
             </div>
         </div>
-	<div class="card">
-            <div class="card-body" style="padding: 15px">
-                <div class="row">
-                    <div class="col-xs-12 col-md-4 text-center">
-                        <button class="btn btn-success" type="button"  data-toggle="modal" data-target="#modal_orders">Купити</button>
-                    </div>
-                    <div class="col-xs-12 col-md-4 text-center">
-                        <button class="btn btn-success" type="button"  data-toggle="modal" data-target="#modal_credit">Кредит</button>
-                    </div>
-                    <div class="col-xs-12 col-md-4 text-center">
-                        <button class="btn btn-success">Trade-in</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-	<hr class="single-product-title-divider" />
-	
-	<!--<div class="action-buttons">
-		
-		<a href="#" class="add_to_wishlist" >
-		        Wishlist
-		</a>
-
-
-		<a href="#" class="add-to-compare-link" data-product_id="2452">Compare</a>
-	</div>--><!-- .action-buttons -->
-
-	<!--<div itemprop="description">
-		<ul>
-			<li>4.5 inch HD Touch Screen (1280 x 720)</li>
-			<li>Android 4.4 KitKat OS</li>
-			<li>1.4 GHz Quad Core™ Processor</li>
-			<li>20 MP front and 28 megapixel CMOS rear camera</li>
-		</ul>
-
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-		<p><strong>SKU</strong>: FW511948218</p>
-	</div>--><!-- .description -->
-
-	
-
+        <?php if($model->status_id == 2){ echo $this->render('_product-actions-wrapper', ['model'=>$model]); } ?>
 	<?php //require_once 'inc/blocks/single-product/variations-form.php'; ?>
 
 

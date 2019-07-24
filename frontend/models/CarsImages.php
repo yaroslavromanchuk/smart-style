@@ -59,9 +59,9 @@ class CarsImages extends \yii\db\ActiveRecord
     public function getImages($width = 0)
     {
        switch ($width){
-            case 600: return '/uploads/cars/600-600/'.$this->image;
-            case 270: return '/uploads/cars/270-190/'.$this->image;
-            case 180: return '/uploads/cars/180-180/'.$this->image;
+            case 800: return '/uploads/cars/800/'.$this->image;
+            case 270: return '/uploads/cars/270/'.$this->image;
+            case 180: return '/uploads/cars/180/'.$this->image;
             default : return '/uploads/cars/img/'.$this->image;
                
        }

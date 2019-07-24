@@ -3,7 +3,6 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
-
 $view_grid = 'active';
 $view_list = '';
  if(Yii::$app->request->cookies->has('view')) {
@@ -19,9 +18,8 @@ $view_list = '';
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->params['breadcrumbs'][] = $this->title;
-$this->registerCssFile('css/cars-list.css'); 
-//$this->registerCssFile(Url::toRoute('css/cars-list.css')); 
-$this->registerJsFile('js/jquery.min.js', ['depends' => [yii\web\JqueryAsset::className()]]); 
+$this->registerCssFile(Url::to('css/cars-list.css'), ['depends' => [yii\web\JqueryAsset::className()]]); 
+$this->registerJsFile(Url::to('js/jquery.min.js'), ['depends' => [yii\web\JqueryAsset::className()]]); 
 ?>
 <?php Pjax::begin(); ?>  
 <div id="primary" class="content-area cars-index">

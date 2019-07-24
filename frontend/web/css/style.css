@@ -3221,7 +3221,7 @@ div.quantity.buttons_added {
 .yamm .dropdown-menu {
 
  width: 100%;
-    position: absolute;
+  
 }
 
 .yamm .no-yamm-content-padding .yamm-content {
@@ -5595,8 +5595,8 @@ section.section-product-cards-carousel .owl-carousel .owl-stage-outer {
     .widget_electro_products_filter .widget .widget-title::after {
       content: none; }
   .widget_electro_products_filter .widget + .widget {
-    padding-top: 30px;
-    margin-top: 20px;
+    padding-top: 15px;
+    margin-top: 15px;
     border-top: 1px solid #ddd; }
 
 .widget_electro_products_filter ul {
@@ -6007,12 +6007,11 @@ section.section-posts-carousel .post-carousel .owl-nav, section.section-posts-ca
     color: #0062bd;
     font-weight: bold; }
   .product_list_widget .wp-post-image {
-    width: 75px;
-    height: 75px;
+    width: 80px;
     margin-right: 20px;
     float: left; }
   .product_list_widget .electro-price {
-    margin-top: 1.667em;
+    margin-top: 1.2em;
     display: block;
     margin-left: 95px; }
   .product_list_widget .star-rating + .electro-price {
@@ -7455,7 +7454,7 @@ label[for="rememberme"] {
     width: 100%; }
     @media (min-width: 768px) {
       .single-product-wrapper .product-images-wrapper {
-        width: 50%; } }
+        width: 55%; } }
   .single-product-wrapper .summary.entry-summary {
     position: relative;
     float: left;
@@ -7465,7 +7464,7 @@ label[for="rememberme"] {
     width: 100%; }
     @media (min-width: 768px) {
       .single-product-wrapper .summary.entry-summary {
-        width: 50%; } }
+        width: 45%; } }
 
 .extended .single-product-wrapper .summary.entry-summary {
   width: 100%; }
@@ -7809,7 +7808,8 @@ div.quantity > label {
   color: #fff;
   font-weight: bold;
   font-size: 1em;
-  padding: 1.036em 3.434em; }
+  padding: 1rem 1.5rem; }
+/*
   .single_add_to_cart_button.button::before {
     display: inline-block;
     font: normal normal normal 14px/1 font-electro;
@@ -7819,6 +7819,7 @@ div.quantity > label {
     margin-right: 0.5em; }
   .single_add_to_cart_button.button:focus::before, .single_add_to_cart_button.button:hover::before {
     background-color: transparent; }
+  */
 
 #tab-description {
   color: #686c6f; }
@@ -7883,7 +7884,7 @@ div.quantity > label {
   margin-bottom: 0.714em; }
 
 .single-product.full-width .wc-tab {
-  padding: 5em; }
+  padding: 4em; }
 /*
 .single-product.full-width .woocommerce-tabs {
   margin-bottom: 7.714em; }

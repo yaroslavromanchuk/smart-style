@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'mileage', 'value' => $model->mileage.' км.',], 
             ['attribute' => 'region_id', 'value' => $model->region->name,],
             ['attribute' => 'city_id', 'value' => $model->city->name,],
-            ['attribute' => 'image', 'format' => 'raw', 'value' => function($data){return Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$data->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:70px; padding:1px;']);},],
+            ['attribute' => 'image', 'format' => 'raw', 'value' => function($data){return Html::img(Yii::getAlias('@uploads').'/cars/180/'.$data->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:70px; padding:1px;']);},],
             ['attribute' => 'damage', 'value' => $model->damage?'Так':'Ні',],
             ['attribute' => 'custom', 'value' => $model->custom?'Ні':'Так',],
             'VIN',

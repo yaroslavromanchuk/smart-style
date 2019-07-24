@@ -34,6 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         //'label' => 'Категорія',
                         'value' => function($data){ return $data->admin->lastName;},
                     ],
+                [                                                  // name свойство зависимой модели owner
+                        'attribute' => 'status_id',
+                        //'label' => 'Категорія',
+                        'value' => function($data){ return $data->status->name;},
+                    ],                
             'year',
             'price',
                     [                                                  // name свойство зависимой модели owner
@@ -51,9 +56,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'label' => 'Фото',
             'format' => 'raw',
             'value' => function($data){
-        $list = '<div class="row"><div class="col-xs-1">'.Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$data->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:30px; padding:1px;']).'</div>';
+        $list = '<div class="row"><div class="col-xs-1">'.Html::img(Yii::getAlias('@uploads').'/cars/180/'.$data->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:30px; padding:1px;']).'</div>';
         foreach (CarsImages::find()->where('cars_id = '.$data->id)->all() as $value) {
-                 $list.=   '<div class="col-xs-1" >'.Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$value->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:30px; padding:1px;']).'</div>';  
+                 $list.=   '<div class="col-xs-1" >'.Html::img(Yii::getAlias('@uploads').'/cars/180/'.$value->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:30px; padding:1px;']).'</div>';  
                 } 
                 $list.= '</div>';
                  return $list;

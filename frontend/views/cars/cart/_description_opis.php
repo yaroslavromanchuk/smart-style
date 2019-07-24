@@ -1,0 +1,2 @@
+<?=$model->description_uk?>
+

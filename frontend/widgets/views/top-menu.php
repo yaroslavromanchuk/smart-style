@@ -19,7 +19,7 @@ use yii\helpers\Url;
                                     <a href="tel:+3800445003355" rel="nofollow">+38 (044) 500-33-55</a>
                                 </li>
                                 <li class="menu-item animate-dropdown">
-                                    <a href="mailto:hello@smart-style.com.ua">hello@smart-style.com.ua</a>
+                                    <a href="mailto:<?=Yii::$app->params['adminEmail']?>"><?=Yii::$app->params['adminEmail']?></a>
                                 </li>
     </ul>
     <ul id="menu-top-bar-right" class="nav navbar-nav nav-inline pull-right animate-dropdown flip hidden-xs hidden-sm ">
@@ -41,7 +41,7 @@ use yii\helpers\Url;
                                     <a href="tel:+3800445003355" rel="nofollow">+38 (044) 500-33-55</a>
                                 </li>
                                 <li class="menu-item animate-dropdown">
-                                    <a href="mailto:hello@smart-style.com.ua">hello@smart-style.com.ua</a>
+                                   <a href="mailto:<?=Yii::$app->params['adminEmail']?>"><?=Yii::$app->params['adminEmail']?></a>
                                 </li>
                                 <li class="menu-item animate-dropdown">
                                     <?=Html::beginTag('a', ['href'=>Url::toRoute('/contacts/index'),  'title'=>Yii::t('app', 'Адреса')]).'<i class="ec ec-transport"></i>'.Yii::t('app', 'Адреса').Html::endTag('a')?>

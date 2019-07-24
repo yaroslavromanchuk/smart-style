@@ -55,25 +55,33 @@ class Menu extends \yii\db\ActiveRecord
     
     public function getStructure()
     {
-      $menu =  Menu::find()->where('visible = 1 and type = 2')->all(); 
+      $menu =  Menu::find()->where('visible = 1 and type = 2 and children = 0')->orderBy('sort ASC')->all(); 
       
       $data = [];
       foreach ($menu as $m) {
-          if($m['children']){
-             $data[$m['children']]['items'][$m['id']] = [
-                 'label' => Yii::t('app', $m['label']),
-                 'url' => [$m['url']],
-             ];
-             $data[$m['children']]['template'] = '<a href="{url}" class="menu-item dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{label}</a>';
-             $data[$m['children']]['options'] = [
-                            'class' => 'menu-item menu-item-has-children animate-dropdown dropdown',
-                        ];
-         }else{
-              $data[$m['id']] = [
+          $children =  Menu::find()->where('visible = 1 and type = 2 and children = '.$m['id'])->orderBy('sort ASC')->all();
+          $data[$m['id']] = [
                   'label' => Yii::t('app', $m['label']),
                  'url' => [$m['url']],
               ]; 
-          }
+          if($children){
+              
+              foreach ($children as $c) {
+                  
+              
+             $data[$c['children']]['items'][$c['id']] = [
+                 'label' => Yii::t('app', $c['label']),
+                 'url' => [$c['url']],
+             ];
+             
+             $data[$c['children']]['template'] = '<a href="{url}" class="menu-item dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{label}</a>';
+             $data[$c['children']]['options'] = [
+                            'class' => 'menu-item menu-item-has-children animate-dropdown dropdown',
+                        ];
+             }
+         }//else{
+              
+         // }
       }
       return $data;
     }

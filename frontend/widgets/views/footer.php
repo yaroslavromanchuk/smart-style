@@ -154,7 +154,7 @@ if($recommended and $akciya and $top){
 					<div class="footer-address">
 						<strong class="footer-address-title"><?=Yii::t('app', 'Контактна інформація')?></strong>
 						<address><a href="https://goo.gl/maps/AKwSTthQqd62"><?=Yii::t('app', 'пр-т Перемоги, 34, Київ')?></a></address>
-                                                <a href="mailto:hello@smart-style.com.ua">hello@smart-style.com.ua</a>
+                                                <a href="mailto:<?=Yii::$app->params['adminEmail']?>"><?=Yii::$app->params['adminEmail']?></a>
 					</div><!-- /.footer-address -->
 					<div class="footer-social-icons">
 						<ul class="social-icons list-unstyled">

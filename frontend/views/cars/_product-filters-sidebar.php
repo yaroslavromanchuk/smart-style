@@ -1,5 +1,6 @@
 <?php  echo $this->render('_search', ['model' => $model]); ?>
 <?php
+use yii\helpers\Url;
 $script = <<< JS
         
 
@@ -23,7 +24,7 @@ $script = <<< JS
 JS;
 
 
-$this->registerJsFile('/js/hidemaxlistitem.min.js', ['depends' => [yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Url::to('/js/hidemaxlistitem.min.js'), ['depends' => [yii\web\JqueryAsset::className()]]);
 $this->registerJs($script, yii\web\View::POS_READY);
 
 

@@ -52,16 +52,24 @@ return [
             'errorAction' => 'site/error',
         ],
         
-      /*  'urlManager' => [
+        'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
-        ],*/
+        ],
         'language'=>'uk-UA',
         'i18n' => [
             'translations' => [
             'app' => [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@common/messages',
+            'sourceLanguage' => 'uk',
+            'fileMap' => [
+                'main' => 'main.php',
+            ],
+        ],
+                      'news' => [
             'class' => 'yii\i18n\PhpMessageSource',
             'basePath' => '@common/messages',
             'sourceLanguage' => 'uk',

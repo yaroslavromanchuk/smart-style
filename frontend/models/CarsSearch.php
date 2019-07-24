@@ -19,21 +19,22 @@ class CarsSearch extends Cars
     public $min_year;
     public $max_year;
     public $gearbox;
+    public $status;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id',  'price',  'min_price', 'max_price', 'min_year', 'max_year', 'currency_id', 'status_id', 'diller_id',  'model_id', 'body_id', 'mileage', 'region_id', 'city_id', 'damage', 'custom', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
-            [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk',  'categories',  'models', 'brand', 'body', 'diller', 'fuel', 'gearbox'], 'safe'],
-            [['engine'], 'number'],
+           [['id',  'price',  'min_price', 'max_price', 'min_year', 'max_year', 'currency_id', 'status_id', 'diller_id',  'model_id', 'body_id', 'mileage', 'region_id', 'city_id', 'damage', 'custom', 'gearbox_id', 'drive_id', 'fuel_id', 'consumption_route', 'consumption_city', 'consumption_combine', 'power_hp', 'power_kw', 'color_id', 'metallic', 'post_auctions', 'doors', 'seats', 'country_id', 'spare_parts'], 'integer'],
+            [['modification', 'image', 'VIN', 'video_key', 'description_ru', 'description_uk',  'categories',  'models', 'brand', 'body', 'diller', 'fuel', 'gearbox', 'status'], 'safe'],
+           // [['engine'], 'number'],
         ];
     }
      public function attributes()
 {
     // делаем поле зависимости доступным для поиска
-    return array_merge(parent::attributes(), ['categories', 'models', 'brand', 'body', 'diller', 'fuel', 'gearbox']);
+    return array_merge(parent::attributes(), ['categories', 'models', 'brand', 'body', 'diller', 'fuel', 'gearbox', 'status']);
 }
 
 
@@ -55,17 +56,16 @@ class CarsSearch extends Cars
      */
     public function search($params)
     {
-        
-       // echo  print_r($params);
-      // exit();
-       
-       
-       
+       // echo '<pre>';
+      //  echo  print_r($params);
+        // echo '</pre>';
+     
+       // exit();
        
         $query = Cars::find()->joinWith('categories')
                 ->joinWith('brand')
                 ->joinWith('diller')
-                ->andFilterWhere(['in', 'status_id', [2,3,4]]);
+               ->andFilterWhere(['not in', 'status_id', [1]]);
                 //->andFilterWhere(['status_id'=> 2]);
 
         // add conditions that should always apply here
@@ -120,45 +120,45 @@ class CarsSearch extends Cars
         
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+           // 'id' => $this->id,
            // 'year' => $this->year,
           //  'price' => $this->price,
-            'currency_id' => $this->currency_id,
+           // 'currency_id' => $this->currency_id,
            // 'categories_id' => $this->categories_id,
            // 'brand_id' => $this->brand_id,
-            'model_id' => $this->model_id,
-            'body_id' => $this->body_id,
-            'mileage' => $this->mileage,
-            'region_id' => $this->region_id,
-            'city_id' => $this->city_id,
-            'damage' => $this->damage,
-            'custom' => $this->custom,
+           /// 'model_id' => $this->model_id,
+           // 'body_id' => $this->body_id,
+           // 'mileage' => $this->mileage,
+           // 'region_id' => $this->region_id,
+            //'city_id' => $this->city_id,
+            //'damage' => $this->damage,
+           // 'custom' => $this->custom,
             //'gearbox_id' => $this->gearbox_id,
-            'drive_id' => $this->drive_id,
+            //'drive_id' => $this->drive_id,
             //'fuel_id' => $this->fuel_id,
-            'consumption_route' => $this->consumption_route,
-            'consumption_city' => $this->consumption_city,
-            'consumption_combine' => $this->consumption_combine,
-            'engine' => $this->engine,
-            'power_hp' => $this->power_hp,
-            'power_kw' => $this->power_kw,
-            'color_id' => $this->color_id,
-            'metallic' => $this->metallic,
-            'post_auctions' => $this->post_auctions,
-            'doors' => $this->doors,
-            'seats' => $this->seats,
-            'country_id' => $this->country_id,
-            'spare_parts' => $this->spare_parts,
-            'status_id' => $this->status_id,
+           // 'consumption_route' => $this->consumption_route,
+           // 'consumption_city' => $this->consumption_city,
+           // 'consumption_combine' => $this->consumption_combine,
+           // 'engine' => $this->engine,
+           // 'power_hp' => $this->power_hp,
+           // 'power_kw' => $this->power_kw,
+           // 'color_id' => $this->color_id,
+            //'metallic' => $this->metallic,
+           // 'post_auctions' => $this->post_auctions,
+            //'doors' => $this->doors,
+            //'seats' => $this->seats,
+           // 'country_id' => $this->country_id,
+           // 'spare_parts' => $this->spare_parts,
+           // 'status_id' => $this->status_id,
            // 'diller_id' => $this->diller_id,
         ]);
 
         $query->andFilterWhere(['like', 'modification', $this->modification])
            // ->andFilterWhere(['like', 'image', $this->image])
-            ->andFilterWhere(['like', 'VIN', $this->VIN])
+           // ->andFilterWhere(['like', 'VIN', $this->VIN])
            // ->andFilterWhere(['like', 'video_key', $this->video_key])
-            ->andFilterWhere(['like', 'description_ru', $this->description_ru])
-            ->andFilterWhere(['like', 'description_uk', $this->description_uk])
+           // ->andFilterWhere(['like', 'description_ru', $this->description_ru])
+           // ->andFilterWhere(['like', 'description_uk', $this->description_uk])
             ->andFilterWhere(['and', 
                 ['>=', 'year', $this->min_year],
                 ['<=', 'year', $this->max_year]])
@@ -168,11 +168,11 @@ class CarsSearch extends Cars
                     ])
             ->andFilterWhere(['in', 'categories_id', $this->categories])
             ->andFilterWhere(['in', 'fuel_id', $this->fuel])
-            ->andFilterWhere(['in', 'gearbox_id', $this->gearbox])
-                
+            ->andFilterWhere(['in', 'gearbox_id', $this->gearbox]) 
             ->andFilterWhere(['in', 'body_id', $this->body])
             ->andFilterWhere(['in', 'diller_id', $this->diller])
-            ->andFilterWhere(['in', 'brand_id', $this->brand]);
+            ->andFilterWhere(['in', 'brand_id', $this->brand])
+            ->andFilterWhere(['in', 'status_id', $this->status]);
         return $dataProvider;
     }
 }

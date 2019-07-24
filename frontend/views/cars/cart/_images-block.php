@@ -1,14 +1,16 @@
-<?php $this->registerCssFile('/css/gallery/lightgallery.css');
+<?php
+use yii\helpers\Url;
+$this->registerCssFile(Url::to('/css/gallery/lightgallery.css'));
 ?>
 <div class="images electro-gallery">
 	<div class="thumbnails-single owl-carousel carousel-inner gallery list-unstyled" id="image-gallery">
 		<a href="<?=$model->getImages()?>" class="zoom carousel-item " title=""  data-rel="prettyPhoto[product-gallery]">
-			<img src="<?=$model->getImages(600)?>"  class="wp-post-image" alt="">
+			<img src="<?=$model->getImages(800)?>"  class="wp-post-image" alt="">
 		</a>
             <?php
             foreach ($model->getCarsImages()->all() as $m) {?>
                 <a href="<?=$m->getImages()?>" class="zoom carousel-item" title=""  data-rel="prettyPhoto[product-gallery]">
-			<img src="<?=$m->getImages(600)?>"  class="wp-post-image" alt="">
+			<img src="<?=$m->getImages(800)?>"  class="wp-post-image" alt="">
 		</a>
           <?php  } ?>
 	</div><!-- .thumbnails-single -->

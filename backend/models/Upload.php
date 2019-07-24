@@ -23,14 +23,14 @@ class Upload
                    $mig =  Image::getImagine()->open($dir . $fileName);
                    //$mig->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
                    $mig->save($dir . $fileName, ['quality' => 90]);
-                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600')); //создаст папку если ее нет!
-                    Image::thumbnail($dir . $fileName, 600, 600)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600/') . $fileName, ['quality' => 70]);
-                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190')); //создаст папку если ее нет!
+                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/800')); //создаст папку если ее нет!
+                    Image::thumbnail($dir . $fileName, 800, 480)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/800/') . $fileName, ['quality' => 100]);
+                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/270')); //создаст папку если ее нет!
                    
-                   Image::thumbnail($dir . $fileName, 270, 190)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190/') . $fileName, ['quality' => 60]);
+                   Image::thumbnail($dir . $fileName, 270, 162)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/270/') . $fileName, ['quality' => 70]);
                    
                    Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180')); //создаст папку если ее нет!
-                   Image::thumbnail($dir . $fileName, 180, 180)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180/') . $fileName, ['quality' => 50]);
+                   Image::thumbnail($dir . $fileName, 180, 108)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/180/') . $fileName, ['quality' => 50]);
         return $fileName;
     }
     
@@ -45,20 +45,20 @@ class Upload
                             unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/img/'.$current_image));
                            // $model->image = '';
                         }   
-                    if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600/'.$current_image)))
+                    if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/800/'.$current_image)))
                         {
                             //удаляем файл
-                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600/'.$current_image));
+                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/800/'.$current_image));
                            // $model->image = '';
                         }
-                        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190/'.$current_image))){
+                        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/270/'.$current_image))){
                                  //удаляем файл
-                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190/'.$current_image));
+                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/270/'.$current_image));
                            // $model->image = '';
                         }
-                        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180/'.$current_image))){
+                        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/180/'.$current_image))){
                                  //удаляем файл
-                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180/'.$current_image));
+                            unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/180/'.$current_image));
                           //  $model->image = '';
                         }
                  // Yii::$app->controller->createDirectory(Yii::getAlias('../../frontend/web/uploads/cars/'.$model->id)); 
@@ -68,14 +68,14 @@ class Upload
                    // Image::getImagine()->open($dir . $fileName)->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
                     $mig =  Image::getImagine()->open($dir . $fileName);
                     
-                    $mig->save($dir . $fileName, ['quality' => 70]);
+                    $mig->save($dir . $fileName, ['quality' => 90]);
                    //$mig->thumbnail(new Box(600, 600))->save($dir . $fileName, ['quality' => 90]);
-                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600')); //создаст папку если ее нет!
-                   Image::thumbnail($dir . $fileName, 600, 600)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600/') . $fileName, ['quality' => 70]);
-                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190')); //создаст папку если ее нет!
-                   Image::thumbnail($dir . $fileName, 270, 190)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190/') . $fileName, ['quality' => 60]);
-                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180')); //создаст папку если ее нет!
-                   Image::thumbnail($dir . $fileName, 180, 180)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180/') . $fileName, ['quality' => 50]);
+                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/800')); //создаст папку если ее нет!
+                   Image::thumbnail($dir . $fileName, 800, 480)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/800/') . $fileName, ['quality' => 100]);
+                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/270')); //создаст папку если ее нет!
+                   Image::thumbnail($dir . $fileName, 270, 162)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/270/') . $fileName, ['quality' => 60]);
+                   Yii::$app->controller->createDirectory(Yii::getAlias('@app/../frontend/web/uploads/cars/180')); //создаст папку если ее нет!
+                   Image::thumbnail($dir . $fileName, 180, 108)->save(Yii::getAlias('@app/../frontend/web/uploads/cars/180/') . $fileName, ['quality' => 50]);
                     
         return $fileName;
     }
@@ -85,20 +85,20 @@ class Upload
                 //удаляем файл
                 unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/img/'.$model->image));
             }
-        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600/'.$model->image)))
+        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/800/'.$model->image)))
             {
                 //удаляем файл
-                unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/600-600/'.$model->image));
+                unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/800/'.$model->image));
             }
-        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190/'.$model->image)))
+        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/270/'.$model->image)))
                 {
                     //удаляем файл
-                    unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/270-190/'.$model->image));
+                    unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/270/'.$model->image));
                 }
-        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180/'.$model->image)))
+        if(file_exists(Yii::getAlias('@app/../frontend/web/uploads/cars/180/'.$model->image)))
                 {
                     //удаляем файл
-                    unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/180-180/'.$model->image));
+                    unlink(Yii::getAlias('@app/../frontend/web/uploads/cars/180/'.$model->image));
                 }
         return true;
     }

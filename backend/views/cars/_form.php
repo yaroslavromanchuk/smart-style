@@ -64,7 +64,7 @@ use yii\jui\DatePicker;
         ]
             ) ?>
 
-    <?= $form->field($model, 'modification')->widget(TinyMce::className());//->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'modification')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'body_id')->dropdownList(
              \backend\models\AutoBodystyles::find()->select(['name', 'id'])->indexBy('id')->column(),
@@ -98,7 +98,7 @@ use yii\jui\DatePicker;
             )?>
 
     <?= $form->field($model, 'file')->fileInput()->label('Головне фото') ?>
-    <?= Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$model->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:50px; padding:1px;'])?>
+    <?= Html::img(Yii::getAlias('@uploads').'/cars/180/'.$model->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:50px; padding:1px;'])?>
     <!--<?= $form->field($model, 'damage')->dropDownList([ 1 => '1', 0 => '0', ], ['prompt' => '']) ?>
 
     <?= $form->field($model, 'custom')->dropDownList([ 1 => '1', 0 => '0', ], ['prompt' => '']) ?>-->
@@ -148,9 +148,9 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'video_key')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description_ru')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description_ru')->widget(TinyMce::className()); ?>
 
-    <?= $form->field($model, 'description_uk')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'description_uk')->widget(TinyMce::className()); ?>
 
     <?= $form->field($model, 'doors')->textInput() ?>
 

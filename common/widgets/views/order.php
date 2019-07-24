@@ -34,7 +34,7 @@ use yii\widgets\Pjax;
     <?= $form->field($model, 'status')->hiddenInput(['value'=> 1])->label(false) ?>
                             <div class="col-xs-12 col-sm-12"> 
     <div class="form-group" style="float: right">
-        <?= Html::submitButton(Yii::t('app', 'Відправити заявку'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Відправити заявку'), ['class' => 'single_add_to_cart_button button alt']) ?>
     </div>  
                                 </div>
     <?php ActiveForm::end(); ?>

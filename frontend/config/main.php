@@ -67,23 +67,44 @@ return [
             'errorAction' => 'site/error',
         ],
       
-      /*  'urlManager' => [
+        'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'enableStrictParsing' => false,
+            'enableStrictParsing' => true,
             'class' => 'common\components\LangUrlManager',
+            'suffix' => '/',
             'rules' => [
-                        'languages' => 'languages/lang/index/', //для модуля мультиязычности
-			'/' => 'site/index',
-                       // '' => 'uk',
-                        //'<action:(contact|login|logout|language|about|signup)>' => 'site/<action>',
-			'<controller:\w+>/<action:\w+>/'=>'<controller>/<action>',
+                'languages' => 'languages/lang/index/', //для модуля мультиязычности
+		'/' => 'site/index',
+                'auto-blog' => 'news/index',
+                'auto-blog/<id:\d+>/' => 'news/view',
+		'pokupka-auto' => 'cars/index',
+                'pokupka-auto/<id:\d+>/' => 'cars/view',
+                'arkhiv-prodannykh-avto' => 'cars/archiv',
+                'arkhiv-prodannykh-avto/<id:\d+>/' => 'cars/archiv-view',
+                'leasing'=>'leasing/index',
+                'contacts'=>'contacts/index',
+                '<action:(traid-in|buyout|money-on-bail|commission-car)>' => 'sell/<action>',
+                '<action:(usa|europa)>' => 'order/<action>',
+                '<action:(credit|insurance|financing)>' => 'services/<action>',
+                '<action:(about-as|personnel|vacancies)>' => 'about/<action>',
+               // '<controller:\w+>/<id:\d+>/' => '<controller>/view',
+                
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',        
             ],
-        ],*/
+        ],
 	'language'=>'uk-UA',
         'i18n' => [
             'translations' => [
             'app' => [
+            'class' => 'yii\i18n\PhpMessageSource',
+            'basePath' => '@common/messages',
+            'sourceLanguage' => 'uk',
+            'fileMap' => [
+                'main' => 'main.php',
+            ],
+        ],
+                'news' => [
             'class' => 'yii\i18n\PhpMessageSource',
             'basePath' => '@common/messages',
             'sourceLanguage' => 'uk',

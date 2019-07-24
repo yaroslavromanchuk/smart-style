@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Cars;
 use frontend\models\CarsSearch;
+use frontend\models\ArchivSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -39,15 +40,10 @@ class CarsController extends Controller
         $this->view->body_class = 'page left-sidebar';
         $PageSize = 15;
         if(Yii::$app->request->queryParams['page_size']){
-          
        // $cookies = Yii::$app->response->cookies;
         if (Yii::$app->request->cookies->has('page_size')){
          Yii::$app->response->cookies->remove('page_size');
-         
-         
-            //$cookies->getValue('page_size', Yii::$app->request->queryParams['page_size']);
         }
-        
         // добавление новой куки в HTTP-ответ
        Yii::$app->response->cookies->add(new \yii\web\Cookie([
     'name' => 'page_size',
@@ -87,12 +83,11 @@ class CarsController extends Controller
      */
     public function actionView($id)
     {
+      //  print_r(Yii::$app->request);
         $this->view->body_class = 'single-product full-width';
         $model = $this->findModel($id);
         $model->views = (int)($model->views+1);
-        if($model->validate()){
         $model->save();
-        }
          $this->view->title = $model->brand->name.' '.$model->model->name.' '.$model->year;//Yii::t('app', 'Каталог автомобілів');
          $page =  $this->findModelPage(3);
          
@@ -100,9 +95,51 @@ class CarsController extends Controller
        $this->view->registerMetaTag(['name' => 'keywords', 'content' => $page->keywords],'keywords');
 
         $this->view->registerMetaTag(['name' => 'description', 'content' => 'Купити '.$model->brand->name.' '.$model->model->name.' '.$model->year.' '.$page->description.' '.$model->price.'$'], 'description');
-        $this->view->registerMetaTag(['name' => 'image', 'content' => '/uploads/cars/180-180/'.$model->image],'image');
-        $this->view->registerMetaTag(['property' => 'og:image', 'content' => '/uploads/cars/180-180/'.$model->image],'property');
+        $this->view->registerMetaTag(['name' => 'image', 'content' => '/uploads/cars/180/'.$model->image],'image');
+        $this->view->registerMetaTag(['property' => 'og:image', 'content' => '/uploads/cars/180/'.$model->image],'property');
         return $this->render('view', [
+            'page' => $page,
+            'model' => $model,
+           // 'recommended' => Cars::find()->where(['status_id'=> 2, 'top' => 1])->limit(1)->all(),
+            'recommended' => Cars::find()->where(['status_id'=>2])->andWhere(' id != '.$model->id.' and price <='.($model->price+1000).' and price >='.($model->price-1000))->orderBy('views DESC')->limit(4)->all(),
+        ]);
+    }
+    public function actionArchiv()
+    {
+        $this->view->body_class = 'page home page-template-default';
+        $page =  $this->findModelPage(18);
+        if(!$page->nofollow){$this->view->registerMetaTag(['name' => 'robots', 'content' => 'noindex, follow'],'robots'); }
+       $this->view->title = Yii::t('app', $page->title);
+       $this->view->registerMetaTag(['name' => 'keywords', 'content' => $page->keywords],'keywords');
+        $this->view->registerMetaTag(['name' => 'description', 'content' => $page->description], 'description');
+        
+        $this->view->registerMetaTag(['name' => 'image', 'content' => '/uploads/page/'.$page->image],'image');
+        $this->view->registerMetaTag(['property' => 'og:image', 'content' => '/uploads/page/'.$page->image],'property');
+        $searchModel = new ArchivSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('archiv/index', [
+            'page' => $page,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+           // 'recommended' => Cars::find()->where(['status_id'=> 2, 'top' => 1])->limit(4)->all()
+        ]);
+    }
+    public function actionArchivView($id)
+    {
+        $this->view->body_class = 'single-product full-width';
+        $model = $this->findModel($id);
+        $model->views = (int)($model->views+1);
+        $model->save(false);
+         $this->view->title = $model->brand->name.' '.$model->model->name.' '.$model->year;//Yii::t('app', 'Каталог автомобілів');
+         $page =  $this->findModelPage(19);
+         
+         if(!$page->nofollow){$this->view->registerMetaTag(['name' => 'robots', 'content' => 'noindex, follow'],'robots'); }
+       $this->view->registerMetaTag(['name' => 'keywords', 'content' => $page->keywords],'keywords');
+
+        $this->view->registerMetaTag(['name' => 'description', 'content' => 'Купити '.$model->brand->name.' '.$model->model->name.' '.$model->year.' '.$page->description.' '.$model->price.'$'], 'description');
+        $this->view->registerMetaTag(['name' => 'image', 'content' => '/uploads/cars/180/'.$model->image],'image');
+        $this->view->registerMetaTag(['property' => 'og:image', 'content' => '/uploads/cars/180/'.$model->image],'property');
+        return $this->render('archiv/view', [
             'page' => $page,
             'model' => $model,
            // 'recommended' => Cars::find()->where(['status_id'=> 2, 'top' => 1])->limit(1)->all(),
@@ -143,11 +180,34 @@ class CarsController extends Controller
         }          
     }        
     exit;
-
-       // return $this->render('create', [
-         //   'model' => $model,
-        //]);
     }
+    
+    public function actionCreatecredit()
+    {
+        $model = new \common\models\Credit();
+      //  print_r(Yii::$app->request->post());
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $model->admin_id = 1;
+            $model->date_add = date('Y-m-d');
+            if ($model->save()) {
+            Yii::$app->response->refresh(); //очистка данных из формы
+            echo "<p class='message_sub ok' style='color: green;padding: 15px 30px;text-align: center;'>Ваше заявка прийнята! Наш консультант зв'яжеться з вами найближчим часом.</p>";
+            exit();
+        }
+           // return $this->redirect(['view', 'id' => $model->id]);
+        }else{
+            $err = "";
+            foreach ($model->errors as $er) {
+                foreach ($er as $value) {
+                    $err.="<p  class='message_sub error' style='color: red;padding: 5px 30px;'>".$value."</p>";
+                }
+            }
+            //echo $err;
+             echo "<p class='message_sub error' style='color: red;padding: 15px 30px;text-align: center;'>Помилка оформлення заявки. Оновіть сторінку і спробуйте знову.</p>";        
+    }        
+    exit();
+    }
+    
 
     /**
      * Updates an existing Cars model.

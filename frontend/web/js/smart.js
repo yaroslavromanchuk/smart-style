@@ -1427,13 +1427,25 @@
 
 })(jQuery);
 
+$("#scrollUp").hide();
   $(function(){
-     /*   $('.select2').select2({
-          minimumResultsForSearch: Infinity
-        });
-        $('.select2-show-search').select2({
-          minimumResultsForSearch: ''
-        });
+      $(window).scroll(function () {
+          if ($(this).scrollTop() > 100){
+              $('#scrollUp').slideDown();
+         // $('.yamm').addClass('navbar-fixed-top');
+    }else{
+        $('#scrollUp').slideUp();
+        // $('.yamm').removeClass('navbar-fixed-top');
+    } 
+      });
+      
+      $('#scrollUp').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 300);
+			return false;
+		});
+    /*
    $('.menu-item-has-children').hover(
         function(){ 
             $(this).toggleClass('open');

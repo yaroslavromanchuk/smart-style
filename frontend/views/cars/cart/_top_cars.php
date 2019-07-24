@@ -4,7 +4,7 @@ use yii\helpers\Url;
 
 foreach ($top as $model) {
     $name = $model->getBrand()->one()->name.' '.$model->getModel()->one()->name;
-$link = Url::toRoute(['cars/view', 'id' => $model->id]);
+$link = Url::to(['cars/view', 'id' => $model->id]);
     ?>
     <div class="product">
         <div class="product-outer ">

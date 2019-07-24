@@ -16,8 +16,7 @@ use \kartik\select2\Select2;
 	<div class="input-group">
             <div class="input-group-addon search-categories">
 <?=Select2::widget([
-    'name' => 'CarsSearch[brand][]',
-    'id' => 'product_cat',                   
+    'name' => 'CarsSearch[brand][]',                 
     'value' => 'Марка',
     'data' => $marks,
     'options' => ['multiple' => true, 'placeholder' => Yii::t('app', 'Пошук авто'), 'class' => 'form-control search-field']
@@ -44,7 +43,7 @@ use \kartik\select2\Select2;
 		<div class="media-body">
 			<span class="support-number"><b><a href="tel:+3800445003355" rel="nofollow">+38 (044) 500-33-55</a><br>
                                 <a href="tel:+3800936885831" rel="nofollow">+38 (093) 688-58-31</a></b></span><br>
-			<span class="support-email"><a href="mailto:hello@smart-style.com.ua">hello@smart-style.com.ua</a></span>
+                                <span class="support-email"><a href="mailto:<?=Yii::$app->params['adminEmail']?>"><?=Yii::$app->params['adminEmail']?></a></span>
 		</div>
 	</div>
 </div>

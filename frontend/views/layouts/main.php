@@ -43,6 +43,7 @@ AppAsset::register($this);
 </div>
 <!--footer--><?=Footer::widget()?><!--footer-->
 </div><!-- #page -->
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 1001;bottom: 6.25rem;" ><i class="fa fa-angle-up"></i></a>
 <?=$this->endBody()?>
 </body>
 </html>

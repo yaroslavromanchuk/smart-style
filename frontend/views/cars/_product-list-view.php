@@ -1,20 +1,25 @@
 <?php 
 use yii\helpers\Url;
 $name = $model->getBrand()->one()->name.' '.$model->getModel()->one()->name;
-$link = Url::toRoute(['cars/view', 'id' => $model->id]);
+$link = Url::to(['cars/view', 'id' => $model->id]);
 ?>
-<div class="card <?=($model->status_id==3)?'deposit':''?> <?=($model->status_id==4)?'deposit':''?>">
-    <?php if($model->status_id==3){ ?>
+<div class="card <?=($model->status_id==3)?'deposit':''?> <?=($model->status_id==4)?'deposit':''?><?=($model->status_id==5)?'deposit':''?>">
+    
+    <div class="row">
+        
+        <div class="col-md-4">
+           
+            <div  style="position: relative">
+                 <?php if($model->status_id==3){ ?>
         <div class="deposit-sales-bg"></div>
         <span class="deposit-title"><?=Yii::t('app','Резерв')?></span>
    <?php  }elseif($model->status_id==4){ ?>
         <div class="deposit-sales-bg"></div>
         <span class="deposit-title"><?=Yii::t('app','Внесено задаток')?></span>
+  <?php  }elseif($model->status_id==5){ ?>
+        <div class="deposit-sales-bg"></div>
+        <span class="deposit-title" style="color:red" ><?=Yii::t('app','Продано')?></span>
   <?php  } ?>
-    <div class="row">
-        
-        <div class="col-md-4">
-            <div  style="position: relative">
         <div class="car-preview-img">
             <a href="<?=$link?>">
                 <img src="<?=$model->getImages(270)?>" class="card-img-top-list" title="<?=$name?>" alt="<?=$name?>" >

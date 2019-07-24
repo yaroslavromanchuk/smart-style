@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                                                 <?php foreach ($config['phone'] as $p) {
               echo   Html::beginTag('a', ['href'=>'tel:+'.$p['tel'], 'class'=>'phone', 'rel'=>'nofollow']).'<i class="ec ion-ios-call"></i>'.$p['phone'].Html::endTag('a').'<br>';
             } ?>
-												Email: <a href="mailto:<?=$config['email']?>"><?=$config['email']?></a></p>
+												Email: <a href="mailto:<?=Yii::$app->params['adminEmail']?>"><?=Yii::$app->params['adminEmail']?></a></p>
 												<h3><?=Yii::t('app', 'Графік роботи')?></h3>
 												<p><?=$config['grafik']?></p>
 												
