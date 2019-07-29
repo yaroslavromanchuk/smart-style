@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [                                                  // name свойство зависимой модели owner
                 'attribute' => 'cars_id',
                 'format' => 'raw',
-                'value' => function($data){ return Html::img(Yii::getAlias('@uploads').'/cars/180-180/'.$data->cars->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:50px; padding:1px;']); },
+                'value' => function($data){ return Html::img(Yii::getAlias('@uploads').'/cars/180/'.$data->cars->image,['alt'=>'yii2 - картинка в gridview','style' => 'width:50px; padding:1px;']); },
                 ],
             'name',
             'phone',

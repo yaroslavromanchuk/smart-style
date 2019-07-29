@@ -8,7 +8,7 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p><?=Yii::$app->user->identity->getFullName().' - '.Yii::$app->user->identity->id?></p>
+                <p><?=Yii::$app->user->identity->getFullName()?></p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -111,16 +111,11 @@
                                 ['label' => 'Коробка передач', 'url' => ['/ria/gearboxes']],
                                 ['label' => 'Кольори', 'url' => ['/ria/colors']],
                                 ['label' => 'Опції авто', 'url' => ['/ria/options']],
-                                ['label' => 'Країна виробник', 'url' => ['/ria/countries']],
-                                
-                                
-                                
+                                ['label' => 'Країна виробник', 'url' => ['/ria/countries']], 
                             ]
                     ]
                 ],
             ]
         ) ?>
-
     </section>
-
 </aside>

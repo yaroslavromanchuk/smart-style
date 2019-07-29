@@ -47,7 +47,7 @@
       function update(slider,val) {
           console.log(slider+'-'+val);
         //changed. Now, directly take value from ui.value. if not set (initial, will use current value.)
-        var $amount = slider == 1?val:$("#amount ").val();
+        var $amount = slider == 1?val:$("#amount").val();
         var $duration = slider == 2?val:$("#credit-month").val();
         
         var $vnesok = Math.round($('#credit-price').val() * ($amount/100));

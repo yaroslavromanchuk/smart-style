@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
                 'data-pjax' => true,
             ],
         ]); ?>
-                                  
+                                 
     <?= $form->field($model, 'cars_id')->hiddenInput(['value'=> $cars->id])->label(false) ?>
     <?= $form->field($model, 'price')->hiddenInput(['value'=> $cars->price])->label(false) ?>
                             <div class="col-xs-12 col-sm-12">

@@ -1,5 +1,7 @@
 <?php
-return [
+return \common\models\Message::find()->select(['name', 'translate'])->where('lang_id = 2')->indexBy('name')->column();
+/*
+ * return [
     'Home' => 'Головна',
     'Увійти' =>'Увійти',
     'Вихід' => 'Вихід',
@@ -57,3 +59,4 @@ return [
     'Акційні авто' => 'Акційні авто',
     'Популярні' => 'Популярні',
 ];
+*/

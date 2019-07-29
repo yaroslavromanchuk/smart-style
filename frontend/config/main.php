@@ -66,6 +66,9 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'config' => [ // сам компонент прописываем
+            'class' => 'common\components\Config',
+        ],
       
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -96,13 +99,15 @@ return [
 	'language'=>'uk-UA',
         'i18n' => [
             'translations' => [
-            'app' => [
+            'app*' => [
             'class' => 'yii\i18n\PhpMessageSource',
             'basePath' => '@common/messages',
             'sourceLanguage' => 'uk',
             'fileMap' => [
                 'main' => 'main.php',
+                'main/error' => 'error.php',
             ],
+            'on missingTranslation' => ['common\components\TranslationEventHandler', 'handleMissingTranslation']
         ],
                 'news' => [
             'class' => 'yii\i18n\PhpMessageSource',

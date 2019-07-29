@@ -33,14 +33,8 @@ use common\widgets\Alert;
         <?= $content ?>
     </section>
 </div>
-
-<footer class="main-footer">
-    <div class="pull-right hidden-xs">
-        <b>Version</b> 2.0
-</footer>
-
 <!-- Control Sidebar -->
-<aside class="control-sidebar control-sidebar-dark" style="display: none;">
+<aside class="control-sidebar control-sidebar-dark" >
     <!-- Create the tabs -->
     <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
         <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>

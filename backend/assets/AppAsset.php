@@ -13,7 +13,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
   //  public $sourcePath = '@vendor/almasaeed2010/adminlte/dist';
     public $css = [
-      //  'css/site.css',
+       // 'css/site.css',
         'css/AdminLTE.min.css',
         'css/skin-black.min.css',
     ];
