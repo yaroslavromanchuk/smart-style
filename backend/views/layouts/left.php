@@ -59,14 +59,27 @@
                         'icon' => 'file-code-o',
                        // 'url' => ['/slider/index']
                         'items' =>[
-                             ['label' => 'Головний слайдер', 'icon' => 'file-code-o', 
+                             ['label' => 'Слайдер банера на головній', 
                                  'items'=>[
                                      ['label' => 'Всі слайдери',  'url' => ['/slider/index']],
                                      ['label' => 'Фото слайдерів', 'url' => ['/slideritem/index']],
                                  ]
                                  ],
+                            ['label' => 'Слайдер в каталозі',
+                                'items'=>[
+                                     ['label' => 'Всі слайдери',  'url' => ['/slider/index']],
+                                     ['label' => 'Фото слайдерів', 'url' => ['/slideritem/index']],
+                                ]
+                                ]
                         ]
                         ],
+                     ['label' => Yii::t('app', 'Налаштування'),
+                       'icon' => 'file-code-o',
+                       'items'=>[
+                                     ['label' => Yii::t('app', 'Переклади'),  'url' => ['/translate/index']],
+                                     ['label' => Yii::t('app', 'Конфігурація сайту'),  'url' => ['/config/index']],
+                                 ]
+                       ],
                    /*  ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
                     [

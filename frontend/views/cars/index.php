@@ -26,7 +26,7 @@ $this->registerJsFile(Url::to('js/jquery.min.js'), ['depends' => [yii\web\Jquery
         <main id="main" class="site-main">
         <?php if(count($recommended)){ ?>    <section class="section-product-cards-carousel">
 		<header>
-			<h2 class="h1">Smart-style <?=Yii::t('app', 'рекомендує')?></h2>
+			<h2 class="h1"><?=Yii::t('app', 'Слайдер в каталозі')?></h2>
 			<div class="owl-nav">
                             <a href="#products-carousel-prev"  data-target="#recommended-product" class="slider-prev"><i class="fa fa-angle-left"></i></a>
                             <a href="#products-carousel-next" data-target="#recommended-product" class="slider-next"><i class="fa fa-angle-right"></i></a>

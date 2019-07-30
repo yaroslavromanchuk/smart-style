@@ -1,7 +1,7 @@
 <?php
 Yii::$container->set('dosamigos\tinymce\TinyMce', [
     'language' => 'ru',
-    'options' => ['rows' => 20],
+    'options' => ['rows' => 30],
     'clientOptions' => [
         'plugins' => [
             'advlist autolink lists link charmap hr preview pagebreak',
@@ -16,5 +16,6 @@ Yii::$container->set('dosamigos\tinymce\TinyMce', [
             'responsivefilemanager' => '/plugins/responsivefilemanager/tinymce/plugins/responsivefilemanager/plugin.min.js',
         ],
         'relative_urls' => false,
+        'convert_urls' => false,
     ]
 ]);

@@ -33,7 +33,7 @@ return [
                     'enableCookieValidation' => false,
                     'enableCsrfValidation' => false,
                           ],
-        'mailer' => [
+       /* 'mailer' => [
          'class' => 'yii\swiftmailer\Mailer',
         // 'useFileTransport' => false,
          'transport' => [
@@ -44,7 +44,7 @@ return [
              'port' => '465', // Port 25 is a very common port too
              'encryption' => 'ssl', // It is often used, check your provider or mail server specs
          ],
-     ],
+     ],*/
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,

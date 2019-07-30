@@ -1,5 +1,4 @@
 # yii console commands
-/yii
 /yii_test
 /yii_test.bat
 
@@ -30,5 +29,5 @@ phpunit.phar
 /phpunit.xml
 
 # vagrant runtime
-/.vagrant
 /noon.com.rar
+/environments/

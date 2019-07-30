@@ -8,13 +8,11 @@ return [
     'components' => [
         'session' =>[
             'class' => 'yii\web\DbSession',
-            'writeCallback' => function()
-{
-    return ['user_id' => Yii::$app->user->id];
-}
+            'writeCallback' => function(){ return ['user_id' => Yii::$app->user->id]; }
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            //'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\DummyCache',
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

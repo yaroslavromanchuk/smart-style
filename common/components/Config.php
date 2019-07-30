@@ -16,7 +16,7 @@ class Config extends Component {
      */
     public function init() {
         parent::init();
-        $this->_attributes = ArrayHelper::map(\app\models\Config::find(['autoload' => true])->all(), 'key_conf', 'value');
+        $this->_attributes = ArrayHelper::map(\frontend\models\Config::find(['autoload' => true])->all(), 'key_conf', 'value');
     }
  
     public function __get($name) {
