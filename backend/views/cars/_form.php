@@ -166,22 +166,40 @@ use yii\jui\DatePicker;
             ) ?>
     
     <?= $form->field($model, 'spare_parts')->checkbox([ 'value' => 1, 'label' => 'На запчастини', ]) ?>
+     <?php 
+      $carsoption = \yii\helpers\ArrayHelper::map($model->getCarsOptions()->all(), 'options_id', 'options_id');
+     $cat = \backend\models\AutoOptionsCategory::find()->all();
+     ?>
     <p>Опції автомобіля</p>
     <div class="row">
-        
-    
+        <?php  foreach ($cat as $value) {?>
+<div class="col-xs-12 col-md-6 col-lg-2">
+            <?=$value->name?>
+        </div>
+           <?php } ?>
+        </div>
+    <div class="row">
     <?php 
-    foreach ($options as $o) { ?>
-        <div class="col-xs-3">
+         foreach ($cat as $value) {?>
+         <div class="col-xs-12 col-md-6 col-lg-2">
+        <?php      $options = \backend\models\AutoOptions::find()->where('cat_id = '.$value->id)->all();
+              foreach ($options as $o) {
+              ?>
+            
        <div class="form-group field-autooptions-name required">
-           <input type="hidden" name="AutoOptions[<?=$o->id?>]" value="0">
-           <label>
-               <input type="checkbox" id="autooptions-<?=$o->id?>" name="AutoOptions[<?=$o->id?>]" value="<?=$o->id?>"> <?=$o->name?>
+           <label> 
+               <input type="checkbox" id="autooptions-<?=$o->id?>" <?php if($carsoption and in_array($o->id, $carsoption)){ echo 'checked';} ?> name="AutoOptions[<?=$o->id?>]" value="<?=$o->cat_id?>"> <?=$o->name?>
            </label>
     <div class="help-block"></div>
 </div>
-            </div>
-    <?php } ?>
+            
+    <?php     } ?>
+             </div>
+       <?php  }
+    
+   
+     ?>
+        
     </div>
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

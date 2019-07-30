@@ -1,5 +1,5 @@
 <?php
-return \common\models\Message::find()->select(['name', 'translate'])->where('lang_id = 2')->indexBy('name')->column();
+return yii\helpers\ArrayHelper::map(\common\models\Message::find(['autoload' => true])->where('lang_id = 2')->all(), 'name', 'translate');
 /*
  * return [
     'Home' => 'Головна',

@@ -10,10 +10,11 @@ use Yii;
  * @property int $id
  * @property int $cars_id
  * @property int $options_id
- * @property string $src
+ * @property int $category_options_id
  *
  * @property Cars $cars
  * @property AutoOptions $options
+ * @property AutoOptionsCategory $categoryOptions
  */
 class CarsOptions extends \yii\db\ActiveRecord
 {
@@ -31,10 +32,11 @@ class CarsOptions extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cars_id', 'options_id'], 'required'],
-            [['cars_id', 'options_id'], 'integer'],
+            [['cars_id', 'options_id', 'category_options_id'], 'required'],
+            [['cars_id', 'options_id',  'category_options_id'], 'integer'],
             [['cars_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cars::className(), 'targetAttribute' => ['cars_id' => 'id']],
             [['options_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoOptions::className(), 'targetAttribute' => ['options_id' => 'id']],
+            [['category_options_id'], 'exist', 'skipOnError' => true, 'targetClass' => AutoOptionsCategory::className(), 'targetAttribute' => ['category_options_id' => 'id']],
         ];
     }
 
@@ -64,5 +66,12 @@ class CarsOptions extends \yii\db\ActiveRecord
     public function getOptions()
     {
         return $this->hasOne(AutoOptions::className(), ['id' => 'options_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoryOptions()
+    {
+        return $this->hasOne(AutoOptionsCategory::className(), ['id' => 'category_options_id']);
     }
 }

@@ -22,7 +22,15 @@ $this->registerJsFile('js/jquery.min.js', ['depends' => [yii\web\JqueryAsset::cl
 						</div><!-- /.product-images-wrapper -->
                     <?=$this->render('cart/_single-product-summary', ['model' => $model, 'title' => Html::encode($this->title)])?>
 					</div><!-- /.single-product-wrapper -->
+                                        <?php
+             if($model->video_key){?>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <iframe  style="max-width: 1170px; width: 100%; min-height: 480px; height: 100%"  src="https://www.youtube.com/embed/<?=$model->video_key?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+                </div> 
+                <?php }?>
 	<?=$this->render('cart/_description', ['model' => $model])?>
+                                        
                                         <?php if(count($recommended)){ ?><section class="section-product-cards-carousel">
 		<header>
 			<h2 class="h1"><?=Yii::t('app', 'Автомобілі які можуть Вас зацікавити')?></h2>

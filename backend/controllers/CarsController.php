@@ -157,7 +157,8 @@ class CarsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $options = AutoOptions::find()->all();
+        $options = AutoOptions::find()->groupBy('cat_id')->all();
+       // $carsoption = \yii\helpers\ArrayHelper::map($model->getCarsOptions()->all(), 'options_id', 'options_id');
         
    /*    echo '<pre>';
      print_r(Yii::$app->request->post()['AutoOptions']);
@@ -177,13 +178,17 @@ class CarsController extends Controller
             }else{
                 $model->image = $current_image;
             }
-            if(Yii::$app->request->post()['AutoOptions']){
+             
+            if(Yii::$app->request->post('AutoOptions')){
+             //   print_r(Yii::$app->request->post('AutoOptions'));
+            //   exit();
                 Yii::$app->db->createCommand()->delete('cars_options', ['cars_id' => $model->id])->execute();
-              foreach (Yii::$app->request->post()['AutoOptions'] as $value) {
+              foreach (Yii::$app->request->post('AutoOptions') as $key=>$value) {
                   if($value){
                   $p = new CarsOptions();
                   $p->cars_id = $model->id;
-                  $p->options_id = $value;
+                  $p->options_id = $key;
+                  $p->category_options_id = $value;
                   $p->save();       
                   }
               }   
